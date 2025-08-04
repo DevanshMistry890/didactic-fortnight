@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Products</title>
+  <title>COVID-19 Dashboard</title>
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta name="format-detection" content="telephone=no">
@@ -19,6 +19,414 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,500;1,500&amp;display=swap"
     rel="stylesheet">
   <link rel="stylesheet" media="all" href="css/app.min.css">
+  <style>
+    /* COVID-19 Dashboard Custom Styles */
+    .page__header {
+      margin-bottom: 32px;
+    }
+    
+    .page__title {
+      margin-bottom: 8px;
+      color: #171725;
+    }
+    
+    .page__desc {
+      color: #808191;
+      font-size: 14px;
+    }
+    
+    .widget_chart {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      height: auto;
+      min-height: 400px;
+      max-height: 600px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .widget_shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+    }
+    
+    .page__widgets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
+      gap: 32px;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+    
+    .widget__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    
+    .widget__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #171725;
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .widget__nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      align-items: center;
+      min-width: 200px;
+    }
+    
+    .widget__btn {
+      padding: 8px 16px;
+      border: 1px solid #E4E4E4;
+      border-radius: 8px;
+      background: #fff;
+      color: #808191;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      min-width: fit-content;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .widget__btn:hover {
+      border-color: #6C5DD3;
+      color: #6C5DD3;
+    }
+    
+    .widget__btn.active {
+      background: #6C5DD3;
+      border-color: #6C5DD3;
+      color: #fff;
+    }
+    
+    .widget__chart {
+      position: relative;
+      height: 100%;
+      min-height: 300px;
+      max-height: 500px;
+      width: 100%;
+      overflow: visible;
+      padding: 0;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .widget__chart svg {
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: visible;
+    }
+    
+    /* Dark mode support */
+    body.dark .widget_chart {
+      background: #1A1D1F;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    body.dark .widget__title {
+      color: #fff;
+    }
+    
+    body.dark .widget__btn {
+      background: #1A1D1F;
+      border-color: #2A2D2F;
+      color: #808191;
+    }
+    
+    body.dark .widget__btn:hover {
+      border-color: #6C5DD3;
+      color: #6C5DD3;
+    }
+    
+    body.dark .widget__btn.active {
+      background: #6C5DD3;
+      border-color: #6C5DD3;
+      color: #fff;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 1400px) {
+  .page__widgets {
+    grid-template-columns: repeat(auto-fit, minmax(1300px, 1fr));
+    gap: 24px;
+  }
+}
+    
+    @media (max-width: 1200px) {
+      .page__widgets {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      
+      .widget_chart {
+        min-height: 350px;
+        max-height: 500px;
+      }
+      
+      .widget__chart {
+        min-height: 250px;
+        max-height: 400px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .page__widgets {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      
+      .widget__head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      
+      .widget__nav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      
+      .widget__btn {
+        flex: 0 0 auto;
+        min-width: 80px;
+      }
+      
+      .widget_chart {
+        min-height: 300px;
+        max-height: 450px;
+      }
+      
+      .widget__chart {
+        min-height: 200px;
+        max-height: 350px;
+      }
+    }
+    
+    /* Pie chart specific styles */
+    .widget__desc {
+      color: #808191;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    
+    #covid-pie-chart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+    }
+    
+    /* Ensure pie chart container is large enough */
+    .widget_chart:has(#covid-pie-chart) {
+      min-height: 500px;
+    }
+    
+    /* Chart container improvements */
+    .widget__chart svg {
+      max-width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+    
+    /* Tooltip styling */
+    .tooltip {
+      position: absolute;
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    /* Fix for number cropping and alignment */
+    .widget__chart text {
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+    }
+    
+    /* Tooltip improvements */
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: 'Inter', sans-serif;
+      pointer-events: none;
+      z-index: 1000;
+      max-width: 200px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Ensure chart containers have proper spacing */
+    .widget__chart > div {
+      width: 100%;
+      height: 100%;
+      min-height: 450px;
+    }
+    
+    /* Ensure page center has enough space */
+    .page__center {
+      padding: 24px;
+      max-width: 1800px;
+      margin: 0 auto;
+      width: 100%;
+
+}
+    
+    /* Ensure SVG charts scale properly */
+    .widget__chart svg {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      overflow: visible;
+    }
+    
+    /* Ensure chart containers don't overflow */
+    .widget__chart {
+      overflow: visible;
+    }
+    
+    /* Fix for axis labels and ticks */
+    .widget__chart .tick text {
+      font-size: 10px;
+      fill: #808191;
+      text-anchor: end;
+      dominant-baseline: middle;
+    }
+    
+    .widget__chart .tick text[transform*="rotate"] {
+      font-size: 9px;
+    }
+    
+    /* Ensure Y-axis labels have enough space */
+    .widget__chart .tick text[transform*="translate(0"] {
+      text-anchor: end;
+      dominant-baseline: middle;
+    }
+    
+    .widget__chart .axis-label {
+      font-size: 12px;
+      font-weight: 500;
+      fill: #171725;
+    }
+    
+    /* Ensure axis labels don't overflow */
+    .widget__chart .tick text {
+      font-size: 10px;
+      fill: #808191;
+      text-anchor: end;
+    }
+    
+    /* Specific fix for rotated labels in bar chart */
+    .widget__chart .tick text[transform*="rotate"] {
+      font-size: 9px;
+    }
+    
+    body.dark .widget__chart .tick text {
+      fill: #808191;
+    }
+    
+    body.dark .widget__chart .axis-label {
+      fill: #fff;
+    }
+
+    /* Ensure charts don't overflow their containers */
+    .widget__chart svg text {
+      font-size: 12px;
+    }
+
+    .widget__chart svg .tick text {
+      font-size: 10px;
+      fill: #666;
+    }
+
+    /* Responsive text sizing for different screen sizes */
+    @media (max-width: 1200px) {
+      .widget__chart svg text {
+        font-size: 11px;
+      }
+      
+      .widget__chart svg .tick text {
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .widget__chart svg text {
+        font-size: 10px;
+      }
+      
+      .widget__chart svg .tick text {
+        font-size: 8px;
+      }
+    }
+
+    /* Ensure tooltips don't get cut off */
+    .tooltip {
+      max-width: 200px;
+      word-wrap: break-word;
+      white-space: normal;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+      .page__widgets {
+        grid-template-columns: 1fr;
+      }
+      
+      .widget_chart {
+        min-height: 350px;
+        max-height: 500px;
+      }
+      
+      .widget__chart {
+        min-height: 250px;
+        max-height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .widget_chart {
+        min-height: 300px;
+        max-height: 450px;
+      }
+      
+      .widget__chart {
+        min-height: 200px;
+        max-height: 350px;
+      }
+    }
+  </style>
   <script>
     var viewportmeta = document.querySelector('meta[name="viewport"]');
     if (viewportmeta) {
@@ -164,6 +572,67 @@
     </div>
     <div class="page__wrapper">
       <div class="page__center">
+        <div class="page__row page__row_head page__row_border">
+          <div class="page__col">
+            <div class="page__hello h5">Hi Joao,</div>
+            <div class="page__welcome h2">COVID-19 Dashboard</div>
+          </div>
+        </div>
+        
+        <div class="page__widgets">
+          <div class="widget widget_chart widget_shadow">
+            <div class="widget__head">
+              <div class="widget__title">Global COVID-19 Cases Over Time</div>
+              <div class="widget__nav">
+                <button class="widget__btn active" data-country="all">Global</button>
+                <button class="widget__btn" data-country="USA">USA</button>
+                <button class="widget__btn" data-country="India">India</button>
+                <button class="widget__btn" data-country="Brazil">Brazil</button>
+              </div>
+            </div>
+            <div class="widget__chart">
+              <div id="covid-line-chart"></div>
+            </div>
+          </div>
+          
+          <div class="widget widget_chart widget_shadow">
+            <div class="widget__head">
+              <div class="widget__title">Daily New Cases</div>
+              <div class="widget__nav">
+                <button class="widget__btn active" data-metric="cases">Cases</button>
+                <button class="widget__btn" data-metric="deaths">Deaths</button>
+                <button class="widget__btn" data-metric="recovered">Recovered</button>
+              </div>
+            </div>
+            <div class="widget__chart">
+              <div id="covid-bar-chart"></div>
+            </div>
+          </div>
+          
+          <div class="widget widget_chart widget_shadow">
+            <div class="widget__head">
+              <div class="widget__title">COVID-19 Metrics Comparison</div>
+              <div class="widget__nav">
+                <button class="widget__btn active" data-view="all">All Metrics</button>
+                <button class="widget__btn" data-view="cases">Cases Only</button>
+                <button class="widget__btn" data-view="deaths">Deaths Only</button>
+              </div>
+            </div>
+            <div class="widget__chart">
+              <div id="covid-multi-chart"></div>
+            </div>
+          </div>
+          
+          <div class="widget widget_chart widget_shadow">
+            <div class="widget__head">
+              <div class="widget__title">Current COVID-19 Distribution</div>
+              <div class="widget__desc">Latest global data breakdown</div>
+            </div>
+            <div class="widget__chart">
+              <div id="covid-pie-chart"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -256,6 +725,8 @@
   <script src="js/lib/svg4everybody.min.js"></script>
   <script src="js/lib/jquery.magnific-popup.min.js"></script>
   <script src="js/app.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/covid-charts.js"></script>
   <!-- svg sprite-->
   <div style="display: none">
     <svg width="0" height="0">
