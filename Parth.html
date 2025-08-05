@@ -164,6 +164,30 @@
     </div>
     <div class="page__wrapper">
       <div class="page__center">
+        <div class="page__content">
+          <div class="card">
+            <div class="card__head">
+              <div class="title-purple h6">COVID-19 Data Visualization</div>
+            </div>
+            <div class="card__body">
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #ffffff; font-size: 18px; font-weight: 600;">Monthly Total COVID-19 Cases</h3>
+                  </div>
+                  <div id="bar-chart" style="width: 100%; height: 400px;"></div>
+                </div>
+                <div class="col-12 col-md-6">
+                  <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #ffffff; font-size: 18px; font-weight: 600;">Quarterly COVID-19 Deaths</h3>
+                    <div style="color: #808191; font-size: 14px;">Distribution by Quarter</div>
+                  </div>
+                  <div id="pie-chart" style="width: 100%; height: 400px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -256,6 +280,7 @@
   <script src="js/lib/svg4everybody.min.js"></script>
   <script src="js/lib/jquery.magnific-popup.min.js"></script>
   <script src="js/app.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <!-- svg sprite-->
   <div style="display: none">
     <svg width="0" height="0">
@@ -474,6 +499,8 @@
       </symbol>
     </svg>
   </div>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="js/covid-charts.js"></script>
 </body>
 
 </html>
