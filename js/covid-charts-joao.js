@@ -21,14 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
   loadCovidData();
   setupEventListeners();
   
-  // Handle window resize
+  // Handle window resize with debouncing
+  let resizeTimeout;
   window.addEventListener('resize', function() {
-    setTimeout(() => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
       createLineChart();
       createBarChart();
       createMultiChart();
       createPieChart();
-    }, 100);
+    }, 250);
   });
 });
 
@@ -215,19 +217,18 @@ function createLineChart() {
     
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(20, containerWidth * 0.05),
-      bottom: Math.max(30, containerHeight * 0.1),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(40, containerHeight * 0.12),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -372,19 +373,18 @@ function createBarChart() {
     
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(20, containerWidth * 0.05),
-      bottom: Math.max(40, containerHeight * 0.12),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(50, containerHeight * 0.15),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -519,19 +519,18 @@ function createMultiChart() {
     
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(30, containerWidth * 0.08),
-      bottom: Math.max(30, containerHeight * 0.1),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(40, containerHeight * 0.12),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -676,19 +675,19 @@ function createPieChart() {
     
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 600;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(10, containerWidth * 0.03),
-      bottom: Math.max(20, containerHeight * 0.08),
-      left: Math.max(10, containerWidth * 0.03)
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(20, containerWidth * 0.05),
+      bottom: Math.max(30, containerHeight * 0.1),
+      left: Math.max(20, containerWidth * 0.05)
     };
     
     const width = Math.max(containerWidth - margin.left - margin.right, 300);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
-    const radius = Math.min(width, height) / 2.5; // Smaller radius to fit better
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
+    const radius = Math.min(width, height) / 2.2; // Slightly larger radius for better visibility
     
     // Clear existing chart
     container.selectAll('*').remove();

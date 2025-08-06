@@ -19,6 +19,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,500;1,500&amp;display=swap"
     rel="stylesheet">
   <link rel="stylesheet" media="all" href="css/app.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* COVID-19 Dashboard Custom Styles */
     .page__header {
@@ -35,58 +36,24 @@
       font-size: 14px;
     }
     
-    .widget_chart {
-      background: #fff;
-      border-radius: 12px;
-      padding: 24px;
-      height: auto;
-      min-height: 400px;
-      max-height: 600px;
-      width: 100%;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .widget_shadow {
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      border-radius: 12px;
-    }
-    
     .page__widgets {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
-      gap: 32px;
-      margin-bottom: 24px;
       width: 100%;
+      max-width: 100%;
+      display: block !important;
+      margin: 0 !important;
     }
     
-    .widget__head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
-      width: 100%;
-      flex-shrink: 0;
-    }
-    
-    .widget__title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #171725;
-      flex: 1;
-      min-width: 200px;
+    .page__widgets > div {
+      width: 100% !important;
+      margin: 0 0 32px 0 !important;
     }
     
     .widget__nav {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: center;
       align-items: center;
-      min-width: 200px;
     }
     
     .widget__btn {
@@ -118,36 +85,18 @@
       color: #fff;
     }
     
-    .widget__chart {
-      position: relative;
-      height: 100%;
-      min-height: 300px;
-      max-height: 500px;
-      width: 100%;
-      overflow: visible;
-      padding: 0;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .widget__chart svg {
-      width: 100% !important;
-      height: 100% !important;
-      max-width: 100%;
-      max-height: 100%;
-      overflow: visible;
-    }
-    
     /* Dark mode support */
-    body.dark .widget_chart {
-      background: #1A1D1F;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    body.dark .container {
+      background: #1A1D1F !important;
+      color: #fff;
     }
     
-    body.dark .widget__title {
-      color: #fff;
+    body.dark .text-gray-800 {
+      color: #fff !important;
+    }
+    
+    body.dark .text-gray-600 {
+      color: #808191 !important;
     }
     
     body.dark .widget__btn {
@@ -168,109 +117,64 @@
     }
     
     /* Responsive design */
-    @media (max-width: 1400px) {
-  .page__widgets {
-    grid-template-columns: repeat(auto-fit, minmax(1300px, 1fr));
-    gap: 24px;
-  }
-}
-    
-    @media (max-width: 1200px) {
-      .page__widgets {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      
-      .widget_chart {
-        min-height: 350px;
-        max-height: 500px;
-      }
-      
-      .widget__chart {
-        min-height: 250px;
-        max-height: 400px;
-      }
-    }
-    
     @media (max-width: 768px) {
-      .page__widgets {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      
-      .widget__head {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-      }
-      
       .widget__nav {
-        width: 100%;
-        justify-content: flex-start;
+        flex-direction: column;
         gap: 8px;
       }
       
       .widget__btn {
-        flex: 0 0 auto;
-        min-width: 80px;
+        min-width: 120px;
       }
       
-      .widget_chart {
-        min-height: 300px;
-        max-height: 450px;
+      .h-\[600px\] {
+        height: 400px;
       }
       
-      .widget__chart {
-        min-height: 200px;
-        max-height: 350px;
+      .text-3xl {
+        font-size: 1.5rem;
+      }
+      
+      .text-4xl {
+        font-size: 1.875rem;
       }
     }
     
-    /* Pie chart specific styles */
-    .widget__desc {
-      color: #808191;
-      font-size: 12px;
-      margin-top: 4px;
-    }
-    
-    #covid-pie-chart {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 400px;
-    }
-    
-    /* Ensure pie chart container is large enough */
-    .widget_chart:has(#covid-pie-chart) {
-      min-height: 500px;
+    @media (max-width: 480px) {
+      .h-\[600px\] {
+        height: 300px;
+      }
+      
+      .text-3xl {
+        font-size: 1.25rem;
+      }
+      
+      .text-4xl {
+        font-size: 1.5rem;
+      }
+      
+      .p-4 {
+        padding: 1rem;
+      }
+      
+      .lg\:p-8 {
+        padding: 1rem;
+      }
     }
     
     /* Chart container improvements */
-    .widget__chart svg {
+    #covid-line-chart svg,
+    #covid-bar-chart svg,
+    #covid-multi-chart svg,
+    #covid-pie-chart svg {
+      width: 100% !important;
+      height: 100% !important;
       max-width: 100%;
-      height: auto;
+      max-height: 100%;
       overflow: visible;
     }
     
     /* Tooltip styling */
-    .tooltip {
-      position: absolute;
-      background: rgba(0,0,0,0.8);
-      color: white;
-      padding: 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    
-    /* Fix for number cropping and alignment */
-    .widget__chart text {
-      font-family: 'Inter', sans-serif;
-      font-size: 12px;
-    }
-    
-    /* Tooltip improvements */
     .tooltip {
       position: absolute;
       background: rgba(0, 0, 0, 0.9);
@@ -282,148 +186,56 @@
       pointer-events: none;
       z-index: 1000;
       max-width: 200px;
-      white-space: nowrap;
+      word-wrap: break-word;
+      white-space: normal;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
     
-    /* Ensure chart containers have proper spacing */
-    .widget__chart > div {
-      width: 100%;
-      height: 100%;
-      min-height: 450px;
-    }
-    
-    /* Ensure page center has enough space */
-    .page__center {
-      padding: 24px;
-      max-width: 1800px;
-      margin: 0 auto;
-      width: 100%;
-
-}
-    
-    /* Ensure SVG charts scale properly */
-    .widget__chart svg {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
-      overflow: visible;
-    }
-    
-    /* Ensure chart containers don't overflow */
-    .widget__chart {
-      overflow: visible;
-    }
-    
     /* Fix for axis labels and ticks */
-    .widget__chart .tick text {
+    .tick text {
       font-size: 10px;
       fill: #808191;
       text-anchor: end;
       dominant-baseline: middle;
+      font-family: 'Inter', sans-serif;
     }
     
-    .widget__chart .tick text[transform*="rotate"] {
+    .tick text[transform*="rotate"] {
       font-size: 9px;
     }
     
     /* Ensure Y-axis labels have enough space */
-    .widget__chart .tick text[transform*="translate(0"] {
+    .tick text[transform*="translate(0"] {
       text-anchor: end;
       dominant-baseline: middle;
     }
     
-    .widget__chart .axis-label {
+    .axis-label {
       font-size: 12px;
       font-weight: 500;
       fill: #171725;
+      font-family: 'Inter', sans-serif;
     }
     
-    /* Ensure axis labels don't overflow */
-    .widget__chart .tick text {
-      font-size: 10px;
-      fill: #808191;
-      text-anchor: end;
-    }
-    
-    /* Specific fix for rotated labels in bar chart */
-    .widget__chart .tick text[transform*="rotate"] {
-      font-size: 9px;
-    }
-    
-    body.dark .widget__chart .tick text {
+    /* Dark mode chart text */
+    body.dark .tick text {
       fill: #808191;
     }
     
-    body.dark .widget__chart .axis-label {
+    body.dark .axis-label {
       fill: #fff;
     }
-
-    /* Ensure charts don't overflow their containers */
-    .widget__chart svg text {
-      font-size: 12px;
-    }
-
-    .widget__chart svg .tick text {
-      font-size: 10px;
-      fill: #666;
-    }
-
+    
     /* Responsive text sizing for different screen sizes */
     @media (max-width: 1200px) {
-      .widget__chart svg text {
-        font-size: 11px;
-      }
-      
-      .widget__chart svg .tick text {
+      .tick text {
         font-size: 9px;
       }
     }
 
     @media (max-width: 768px) {
-      .widget__chart svg text {
-        font-size: 10px;
-      }
-      
-      .widget__chart svg .tick text {
+      .tick text {
         font-size: 8px;
-      }
-    }
-
-    /* Ensure tooltips don't get cut off */
-    .tooltip {
-      max-width: 200px;
-      word-wrap: break-word;
-      white-space: normal;
-    }
-
-    /* Responsive adjustments */
-    @media (max-width: 1200px) {
-      .page__widgets {
-        grid-template-columns: 1fr;
-      }
-      
-      .widget_chart {
-        min-height: 350px;
-        max-height: 500px;
-      }
-      
-      .widget__chart {
-        min-height: 250px;
-        max-height: 400px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .widget_chart {
-        min-height: 300px;
-        max-height: 450px;
-      }
-      
-      .widget__chart {
-        min-height: 200px;
-        max-height: 350px;
       }
     }
   </style>
@@ -576,60 +388,161 @@
             <div class="page__hello h5">Hi Joao,</div>
             <div class="page__welcome h2">COVID-19 Dashboard</div>
           </div>
+          <div class="page__col">
+            <div class="header">
+              <button class="header__burger"></button>
+              <div class="search">
+                <div class="search__field">
+                  <input class="search__input" type="text" placeholder="Search" />
+                  <button class="search__toggle">
+                    <svg class="icon icon-search">
+                      <use xlink:href="#icon-search"></use>
+                    </svg>
+                    <svg class="icon icon-close">
+                      <use xlink:href="#icon-close"></use>
+                    </svg>
+                  </button>
+                </div>
+                <div class="search__result">
+                  <div class="search__info caption-sm">Recent Searches</div>
+                  <div class="search__list"><a class="search__item" href="#">
+                      <div class="search__preview bg-pink"><img class="search__pic" src="img/figure-1.png" alt="" />
+                      </div>
+                      <div class="search__text">Earning byitems
+                        <svg class="icon icon-arrow-right">
+                          <use xlink:href="#icon-arrow-right"></use>
+                        </svg>
+                      </div>
+                    </a><a class="search__item" href="#">
+                      <div class="search__preview bg-yellow"><img class="search__pic" src="img/figure-4.png" alt="" />
+                      </div>
+                      <div class="search__text">This monthStatements
+                        <svg class="icon icon-arrow-right">
+                          <use xlink:href="#icon-arrow-right"></use>
+                        </svg>
+                      </div>
+                    </a><a class="search__item" href="#">
+                      <div class="search__preview bg-blue-light"><img class="search__pic" src="img/figure-3.png"
+                          alt="" /></div>
+                      <div class="search__text">How manysales I got…
+                        <svg class="icon icon-arrow-right">
+                          <use xlink:href="#icon-arrow-right"></use>
+                        </svg>
+                      </div>
+                    </a></div>
+                  <button class="search__btn btn btn_purple btn_wide">Advance Search</button>
+                </div>
+              </div>
+              <button class="header__search">
+                <svg class="icon icon-search">
+                  <use xlink:href="#icon-search"></use>
+                </svg>
+              </button>
+              <div class="notifications">
+                <button class="notifications__open">
+                  <svg class="icon icon-bell">
+                    <use xlink:href="#icon-bell"></use>
+                  </svg><span class="notifications__counter">2</span>
+                </button>
+                <div class="notifications__wrap">
+                  <div class="notifications__info h6">Recent Notification</div>
+                  <div class="notifications__list"><a class="notifications__item" href="notifications.html">
+                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
+                        <div class="notifications__status bg-blue"><img class="notifications__pic" src="img/chat.svg"
+                            alt="" /></div>
+                      </div>
+                      <div class="notifications__details">
+                        <div class="notifications__line">
+                          <div class="notifications__user caption">Sarah Saunders</div>
+                          <div class="notifications__time caption">8h</div>
+                        </div>
+                        <div class="notifications__text caption-sm">Commented on <span
+                            class="notifications__project">Collab Design</span></div>
+                      </div>
+                    </a><a class="notifications__item" href="notifications.html">
+                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
+                        <div class="notifications__status bg-green"><img class="notifications__pic" src="img/bag.svg"
+                            alt="" /></div>
+                      </div>
+                      <div class="notifications__details">
+                        <div class="notifications__line">
+                          <div class="notifications__user caption">Glenn Greer</div>
+                          <div class="notifications__time caption">12h</div>
+                        </div>
+                        <div class="notifications__text caption-sm">Just pushaded <span
+                            class="notifications__project">Sapiens Illustration</span></div>
+                      </div>
+                    </a><a class="notifications__item" href="notifications.html">
+                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
+                        <div class="notifications__status bg-purple"><img class="notifications__pic"
+                            src="img/message.svg" alt="" /></div>
+                      </div>
+                      <div class="notifications__details">
+                        <div class="notifications__line">
+                          <div class="notifications__user caption">Sarah Saunders</div>
+                          <div class="notifications__time caption">14h</div>
+                        </div>
+                        <div class="notifications__text caption-sm">Sent you a message</div>
+                      </div>
+                    </a></div>
+                  <button class="notifications__btn btn btn_purple btn_wide">View All Notifications</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         
         <div class="page__widgets">
-          <div class="widget widget_chart widget_shadow">
-            <div class="widget__head">
-              <div class="widget__title">Global COVID-19 Cases Over Time</div>
-              <div class="widget__nav">
-                <button class="widget__btn active" data-country="all">Global</button>
-                <button class="widget__btn" data-country="USA">USA</button>
-                <button class="widget__btn" data-country="India">India</button>
-                <button class="widget__btn" data-country="Brazil">Brazil</button>
-              </div>
+          <!-- Line Chart -->
+          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl mb-8">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Global COVID-19 Cases Over Time</h1>
+              <p class="text-gray-600 mt-2">Track the progression of COVID-19 cases across different regions.</p>
             </div>
-            <div class="widget__chart">
-              <div id="covid-line-chart"></div>
+            <div class="widget__nav flex justify-center mb-6">
+              <button class="widget__btn active" data-country="all">Global</button>
+              <button class="widget__btn" data-country="USA">USA</button>
+              <button class="widget__btn" data-country="India">India</button>
+              <button class="widget__btn" data-country="Brazil">Brazil</button>
             </div>
+            <div id="covid-line-chart" class="w-full h-[600px]"></div>
           </div>
           
-          <div class="widget widget_chart widget_shadow">
-            <div class="widget__head">
-              <div class="widget__title">Daily New Cases</div>
-              <div class="widget__nav">
-                <button class="widget__btn active" data-metric="cases">Cases</button>
-                <button class="widget__btn" data-metric="deaths">Deaths</button>
-                <button class="widget__btn" data-metric="recovered">Recovered</button>
-              </div>
+          <!-- Bar Chart -->
+          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl mb-8">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Daily New Cases</h1>
+              <p class="text-gray-600 mt-2">Monitor daily changes in COVID-19 metrics.</p>
             </div>
-            <div class="widget__chart">
-              <div id="covid-bar-chart"></div>
+            <div class="widget__nav flex justify-center mb-6">
+              <button class="widget__btn active" data-metric="cases">Cases</button>
+              <button class="widget__btn" data-metric="deaths">Deaths</button>
+              <button class="widget__btn" data-metric="recovered">Recovered</button>
             </div>
+            <div id="covid-bar-chart" class="w-full h-[600px]"></div>
           </div>
           
-          <div class="widget widget_chart widget_shadow">
-            <div class="widget__head">
-              <div class="widget__title">COVID-19 Metrics Comparison</div>
-              <div class="widget__nav">
-                <button class="widget__btn active" data-view="all">All Metrics</button>
-                <button class="widget__btn" data-view="cases">Cases Only</button>
-                <button class="widget__btn" data-view="deaths">Deaths Only</button>
-              </div>
+          <!-- Multi Chart -->
+          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl mb-8">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-800">COVID-19 Metrics Comparison</h1>
+              <p class="text-gray-600 mt-2">Compare different COVID-19 metrics over time.</p>
             </div>
-            <div class="widget__chart">
-              <div id="covid-multi-chart"></div>
+            <div class="widget__nav flex justify-center mb-6">
+              <button class="widget__btn active" data-view="all">All Metrics</button>
+              <button class="widget__btn" data-view="cases">Cases Only</button>
+              <button class="widget__btn" data-view="deaths">Deaths Only</button>
             </div>
+            <div id="covid-multi-chart" class="w-full h-[600px]"></div>
           </div>
           
-          <div class="widget widget_chart widget_shadow">
-            <div class="widget__head">
-              <div class="widget__title">Current COVID-19 Distribution</div>
-              <div class="widget__desc">Latest global data breakdown</div>
+          <!-- Pie Chart -->
+          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-4xl mb-8">
+            <div class="text-center mb-8">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Current COVID-19 Distribution</h1>
+              <p class="text-gray-600 mt-2">Latest global data breakdown showing the current state of COVID-19 cases.</p>
             </div>
-            <div class="widget__chart">
-              <div id="covid-pie-chart"></div>
-            </div>
+            <div id="covid-pie-chart" class="w-full h-[600px] flex justify-center items-center"></div>
           </div>
         </div>
       </div>
