@@ -112,7 +112,7 @@ fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365')
     // Add legend for line chart
     const lineLegend = svg.append('g')
       .attr('class', 'legend')
-      .attr('transform', `translate(${width - 150}, 10)`);
+      .attr('transform', `translate(${width - 150}, 30)`);
 
     lineLegend.append('line')
       .attr('x1', 0)
