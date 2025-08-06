@@ -1,0 +1,81 @@
+.sankey-link {
+    fill: none;
+    stroke-opacity: 0.7;
+    /* Increased default opacity */
+    transition: stroke-opacity 0.3s ease-in-out;
+    /* Smooth transition for hover */
+    stroke-linecap: round;
+    /* Added for smoother line ends */
+}
+
+.sankey-link:hover {
+    stroke-opacity: 1;
+}
+
+.sankey-node rect {
+    stroke: #4b5563;
+    stroke-width: 1.5px;
+    border-radius: 6px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    /* Smooth hover transition */
+}
+
+.sankey-node rect:hover {
+    transform: scale(1.02);
+    /* Slightly grow on hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Add shadow on hover */
+}
+
+.sankey-node text {
+    font-size: 14px;
+    font-weight: 500;
+    fill: #1f2937;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+}
+
+#sankey-chart svg {
+    width: 100%;
+    height: auto;
+    max-height: 800px;
+    /* Adjusted height for 2 layers */
+}
+
+/* Legend styling */
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.legend-color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid #4b5563;
+}
+
+.legend-text {
+    font-size: 14px;
+    color: #374151;
+}
+
+.highlight-fade {
+    opacity: 0.2;
+}
