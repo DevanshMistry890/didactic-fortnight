@@ -109,6 +109,30 @@ fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365')
       .attr('fill', '#6c5dd3')
       .style('opacity', 0.8);
 
+    // Add legend for line chart
+    const lineLegend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 150}, 10)`);
+
+    lineLegend.append('line')
+      .attr('x1', 0)
+      .attr('x2', 20)
+      .attr('stroke', '#6c5dd3')
+      .attr('stroke-width', 3);
+
+    lineLegend.append('circle')
+      .attr('cx', 10)
+      .attr('cy', 0)
+      .attr('r', 5)
+      .attr('fill', '#6c5dd3');
+
+    lineLegend.append('text')
+      .attr('x', 30)
+      .attr('y', 4)
+      .text('Monthly Total Cases')
+      .style('font-size', '12px')
+      .style('fill', '#808191');
+
     // Add tooltip for line chart
     const lineTooltip = d3.select('body').append('div')
       .attr('class', 'tooltip')
@@ -216,6 +240,31 @@ fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365')
         .attr('stroke', '#1f2128')
         .style('stroke-width', '2px')
         .style('opacity', 0.8);
+
+    // Add legend for pie chart
+    const pieLegend = pieSvg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${radius + 20}, -${radius})`);
+
+    const legendData = Object.entries(quarterlyDeaths);
+    
+    legendData.forEach((d, i) => {
+      const legendRow = pieLegend.append('g')
+        .attr('transform', `translate(0, ${i * 25})`);
+        
+      legendRow.append('rect')
+        .attr('width', 15)
+        .attr('height', 15)
+        .attr('fill', color(d[0]))
+        .style('opacity', 0.8);
+        
+      legendRow.append('text')
+        .attr('x', 25)
+        .attr('y', 12)
+        .text(`${d[0]} - ${d3.format('.1%')(d[1]/d3.sum(Object.values(quarterlyDeaths)))}`)
+        .style('font-size', '12px')
+        .style('fill', '#808191');
+    });
 
     // Add labels
     const labelGroups = pieSvg.selectAll('g.label')
