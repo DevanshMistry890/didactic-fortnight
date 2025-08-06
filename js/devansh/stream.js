@@ -281,7 +281,7 @@
     // 2. Data Loading for USA
     const countryCode = 'US'; // Focusing only on USA
     d3.csv(`https://storage.googleapis.com/covid19-open-data/v3/location/${countryCode}.csv`).then((countryData) => {
-        document.getElementById('loader').style.display = 'none'; // Hide initial loader
+        document.getElementById('loader3').style.display = 'none'; // Hide initial loader
 
         const processedData = [];
 
@@ -310,8 +310,8 @@
 
         if (processedData.length === 0) {
             console.warn(`No valid search trend data found for ${countryCode} within the date range ${dataStartDate.toISOString().split('T')[0]} to ${dataEndDate.toISOString().split('T')[0]}.`);
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('loader').innerHTML = `<p class="text-gray-600 font-semibold">No valid search trend data found for the USA within the specified date range to create the Streamgraph.</p>`;
+            document.getElementById('loader3').style.display = 'block';
+            document.getElementById('loader3').innerHTML = `<p class="text-gray-600 font-semibold">No valid search trend data found for the USA within the specified date range to create the Streamgraph.</p>`;
             return;
         }
 
@@ -327,6 +327,6 @@
 
     }).catch(error => {
         console.error('Error loading country data:', error);
-        document.getElementById('loader').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data for the USA. Please check the console for details.</p>';
+        document.getElementById('loader3').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data for the USA. Please check the console for details.</p>';
     });
 })();

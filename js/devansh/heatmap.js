@@ -143,7 +143,7 @@
     );
 
     Promise.all(promises).then((countrySpecificData) => {
-        document.getElementById('loader').style.display = 'none'; // Hide initial loader
+        document.getElementById('loader4').style.display = 'none'; // Hide initial loader
 
         const processedData = [];
 
@@ -167,12 +167,10 @@
 
         if (processedData.length === 0) {
             console.warn(`No valid 'new_confirmed' data found for any country within the date range ${dataStartDate.toISOString().split('T')[0]} to ${dataEndDate.toISOString().split('T')[0]}.`);
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('loader').innerHTML = `<p class="text-gray-600 font-semibold">No valid data found to create the Heatmap for the specified countries and date range.</p>`;
+            document.getElementById('loader4').style.display = 'block';
+            document.getElementById('loader4').innerHTML = `<p class="text-gray-600 font-semibold">No valid data found to create the Heatmap for the specified countries and date range.</p>`;
             return;
         }
-
-        console.log("Processed Data for Heatmap:", processedData.slice(0, 100)); // Log first 100 entries
 
         // Initial drawing of the Heatmap
         drawHeatmap(processedData);
@@ -184,6 +182,6 @@
 
     }).catch(error => {
         console.error('Error loading country data:', error);
-        document.getElementById('loader').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data. Please check the console for details.</p>';
+        document.getElementById('loader4').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data. Please check the console for details.</p>';
     });
 })();

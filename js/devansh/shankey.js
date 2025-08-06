@@ -98,8 +98,8 @@
             // IMPORTANT: Only run sankey layout if there are links
             if (graph.links.length === 0) {
                 console.warn("No links in the graph for drawing Sankey. Displaying message.");
-                document.getElementById('loader').style.display = 'block';
-                document.getElementById('loader').innerHTML = '<p class="text-gray-600 font-semibold">No valid data found to create Sankey diagram links within the specified date range.</p>';
+                document.getElementById('loader2').style.display = 'block';
+                document.getElementById('loader2').innerHTML = '<p class="text-gray-600 font-semibold">No valid data found to create Sankey diagram links within the specified date range.</p>';
                 return; // Exit the function if no links
             }
 
@@ -267,8 +267,8 @@
 
         } catch (e) {
             console.error("Error during Sankey layout or drawing:", e);
-            document.getElementById('loader').style.display = 'block'; // Show loader with error message
-            document.getElementById('loader').innerHTML = `<p class="text-red-600 font-semibold">An error occurred during chart rendering: ${e.message}. Please check the console.</p>`;
+            document.getElementById('loader2').style.display = 'block'; // Show loader with error message
+            document.getElementById('loader2').innerHTML = `<p class="text-red-600 font-semibold">An error occurred during chart rendering: ${e.message}. Please check the console.</p>`;
         }
     };
 
@@ -280,7 +280,7 @@
     );
 
     Promise.all(promises).then((countrySpecificData) => {
-        document.getElementById('loader').style.display = 'none'; // Hide initial loader
+        document.getElementById('loader2').style.display = 'none'; // Hide initial loader
 
         // --- 3. Data Wrangling for Sankey ---
         const graph = {
@@ -380,6 +380,6 @@
 
     }).catch(error => {
         console.error('Error loading or processing data:', error);
-        document.getElementById('loader').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data. Please check the console for details.</p>';
+        document.getElementById('loader2').innerHTML = '<p class="text-red-600 font-semibold">Failed to load data. Please check the console for details.</p>';
     });
 })();
