@@ -115,21 +115,32 @@ function processData(rawData, vaccineData) {
 }
 
 function updateKPIs(kpis) {
-    document.getElementById('total-cases').textContent = kpis.totalCases.toLocaleString();
-    document.getElementById('total-deaths').textContent = kpis.totalDeaths.toLocaleString();
-    document.getElementById('fatality-rate').textContent = kpis.fatalityRate.toFixed(2) + '%';
-    document.getElementById('active-cases').textContent = kpis.activeCases.toLocaleString();
+    const totalCasesEl = document.getElementById('total-cases');
+    const totalDeathsEl = document.getElementById('total-deaths');
+    const fatalityRateEl = document.getElementById('fatality-rate');
+    const activeCasesEl = document.getElementById('active-cases');
+    const casesChangeEl = document.getElementById('cases-change');
+    const deathsChangeEl = document.getElementById('deaths-change');
+    const fatalityChangeEl = document.getElementById('fatality-change');
+    const activeChangeEl = document.getElementById('active-change');
 
-    document.getElementById('cases-change').innerHTML = `<i class="fas fa-arrow-${kpis.casesChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.casesChange).toFixed(2)}%`;
-    document.getElementById('deaths-change').innerHTML = `<i class="fas fa-arrow-${kpis.deathsChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.deathsChange).toFixed(2)}%`;
-    document.getElementById('fatality-change').innerHTML = `<i class="fas fa-arrow-${kpis.fatalityChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.fatalityChange).toFixed(2)}%`;
-    document.getElementById('active-change').innerHTML = `<i class="fas fa-arrow-${kpis.activeChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.activeChange).toFixed(2)}%`;
+    if (totalCasesEl) totalCasesEl.textContent = kpis.totalCases.toLocaleString();
+    if (totalDeathsEl) totalDeathsEl.textContent = kpis.totalDeaths.toLocaleString();
+    if (fatalityRateEl) fatalityRateEl.textContent = kpis.fatalityRate.toFixed(2) + '%';
+    if (activeCasesEl) activeCasesEl.textContent = kpis.activeCases.toLocaleString();
+
+    if (casesChangeEl) casesChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.casesChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.casesChange).toFixed(2)}%`;
+    if (deathsChangeEl) deathsChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.deathsChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.deathsChange).toFixed(2)}%`;
+    if (fatalityChangeEl) fatalityChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.fatalityChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.fatalityChange).toFixed(2)}%`;
+    if (activeChangeEl) activeChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.activeChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.activeChange).toFixed(2)}%`;
 }
 
 function createBarChart(data) {
+    const container = document.getElementById('barChart');
+    if (!container) return;
+
     const dailyCases = data.daily.cases.slice(-30);
     const margin = { top: 20, right: 30, bottom: 50, left: 60 };
-    const container = document.getElementById('barChart');
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -202,10 +213,10 @@ function createBarChart(data) {
 
             const tooltip = d3.select("#tooltip");
             tooltip.html(`
-                        <strong>${d.formattedDate}</strong>
-                        <div>New Cases: ${d.daily_cases.toLocaleString()}</div>
-                        <div>7-Day Avg: ${calculate7DayAvg(dailyCases, dailyCases.indexOf(d), "daily_cases").toLocaleString()}</div>
-                    `)
+                <strong>${d.formattedDate}</strong>
+                <div>New Cases: ${d.daily_cases.toLocaleString()}</div>
+                <div>7-Day Avg: ${calculate7DayAvg(dailyCases, dailyCases.indexOf(d), "daily_cases").toLocaleString()}</div>
+            `)
                 .style("opacity", 1)
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 30) + "px");
@@ -222,6 +233,9 @@ function createBarChart(data) {
 }
 
 function createCaseFatalityChart(data) {
+    const container = document.getElementById('caseFatalityChart');
+    if (!container) return;
+
     const dailyData = data.daily.cases.map((d, i) => ({
         date: d.date,
         formattedDate: d.formattedDate,
@@ -232,7 +246,6 @@ function createCaseFatalityChart(data) {
     })).filter(d => d.newCases > 0).slice(-30);
 
     const margin = { top: 20, right: 30, bottom: 50, left: 60 };
-    const container = document.getElementById('caseFatalityChart');
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -315,11 +328,11 @@ function createCaseFatalityChart(data) {
 
             const tooltip = d3.select("#tooltip");
             tooltip.html(`
-                        <strong>${d.formattedDate}</strong>
-                        <div>New Cases: ${d.newCases.toLocaleString()}</div>
-                        <div>New Deaths: ${d.newDeaths.toLocaleString()}</div>
-                        <div>Fatality Rate: ${d.fatalityRate.toFixed(2)}%</div>
-                    `)
+                <strong>${d.formattedDate}</strong>
+                <div>New Cases: ${d.newCases.toLocaleString()}</div>
+                <div>New Deaths: ${d.newDeaths.toLocaleString()}</div>
+                <div>Fatality Rate: ${d.fatalityRate.toFixed(2)}%</div>
+            `)
                 .style("opacity", 1)
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 30) + "px");
@@ -339,9 +352,11 @@ function createCaseFatalityChart(data) {
 }
 
 function createLineChart(data) {
+    const container = document.getElementById('lineChart');
+    if (!container) return;
+
     const dailyCases = data.daily.cases;
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
-    const container = document.getElementById('lineChart');
     const width = container.clientWidth - margin.left - margin.right;
     const height = 250 - margin.top - margin.bottom;
 
@@ -434,10 +449,10 @@ function createLineChart(data) {
 
             const tooltip = d3.select("#tooltip");
             tooltip.html(`
-                        <strong>${d.label}</strong>
-                        <div>Total Cases: ${d.cases.toLocaleString()}</div>
-                        <div>Avg Daily: ${Math.round(d.cases / 7).toLocaleString()}</div>
-                    `)
+                <strong>${d.label}</strong>
+                <div>Total Cases: ${d.cases.toLocaleString()}</div>
+                <div>Avg Daily: ${Math.round(d.cases / 7).toLocaleString()}</div>
+            `)
                 .style("opacity", 1)
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 30) + "px");
@@ -463,9 +478,11 @@ function createLineChart(data) {
 }
 
 function createStackedBarChart(data) {
+    const container = document.getElementById('stackedBarChart');
+    if (!container) return;
+
     const vaccineData = data.vaccine;
     const margin = { top: 20, right: 30, bottom: 40, left: 50 };
-    const container = document.getElementById('stackedBarChart');
     const width = container.clientWidth - margin.left - margin.right;
     const height = 250 - margin.top - margin.bottom;
 
@@ -512,10 +529,10 @@ function createStackedBarChart(data) {
 
             const tooltip = d3.select("#tooltip");
             tooltip.html(`
-                        <strong>${d.formattedDate}</strong>
-                        <div>Vaccinated: ${d.daily.toLocaleString()}</div>
-                        <div>Progress: ${((d.daily / 100000) * 100).toFixed(1)}% of target</div>
-                    `)
+                <strong>${d.formattedDate}</strong>
+                <div>Vaccinated: ${d.daily.toLocaleString()}</div>
+                <div>Progress: ${((d.daily / 100000) * 100).toFixed(1)}% of target</div>
+            `)
                 .style("opacity", 1)
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 30) + "px");
@@ -583,32 +600,38 @@ async function drawAllCharts() {
 
 // Initialize the dashboard
 document.addEventListener('DOMContentLoaded', function () {
-    // Set up dark mode toggle
+    // Set up dark mode toggle if element exists
     const themeToggle = document.getElementById('theme-toggle');
-    themeToggle.addEventListener('click', function () {
-        document.body.classList.toggle('dark-mode');
-        const icon = this.querySelector('i');
-        if (document.body.classList.contains('dark-mode')) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-        // Redraw charts to update colors
-        drawAllCharts();
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+            // Redraw charts to update colors
+            drawAllCharts();
+        });
+    }
+
+    // Set up refresh button if element exists
+    const refreshBtn = document.getElementById('refresh-btn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', function () {
+            const icon = this.querySelector('i');
+            if (icon) icon.classList.add('fa-spin');
+            drawAllCharts().finally(() => {
+                if (icon) icon.classList.remove('fa-spin');
+            });
+        });
+    }
 
     // Initial load
     drawAllCharts();
-
-    // Refresh button
-    document.getElementById('refresh-btn').addEventListener('click', function () {
-        this.querySelector('i').classList.add('fa-spin');
-        drawAllCharts().finally(() => {
-            this.querySelector('i').classList.remove('fa-spin');
-        });
-    });
 
     // Handle window resize
     window.addEventListener('resize', function () {
