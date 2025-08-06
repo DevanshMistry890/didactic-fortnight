@@ -1,0 +1,66 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #6b7280;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+    fill: #4b5563;
+}
+
+.axis-title {
+    font-size: 14px;
+    font-weight: 500;
+    fill: #1f2937;
+    text-anchor: middle;
+}
+
+.cell {
+    stroke: #e5e7eb;
+    /* Light border for cells */
+    stroke-width: 0.5px;
+    transition: stroke-width 0.2s, stroke 0.2s;
+}
+
+.cell:hover {
+    stroke: #4b5563;
+    stroke-width: 1.5px;
+}
+
+.tooltip {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+}
+
+.color-legend-bar {
+    width: 300px;
+    height: 20px;
+    background: linear-gradient(to right, #edf2f7, #a5d6a7, #66bb6a, #388e3c, #1b5e20);
+    /* Example gradient */
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.color-legend-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+#heatmap-chart svg {
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+}

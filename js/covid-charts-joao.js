@@ -18,30 +18,28 @@ let currentView = 'all';
 
 // Initialize charts
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('COVID-19 Dashboard: DOM loaded, initializing charts...');
   loadCovidData();
   setupEventListeners();
   
-  // Handle window resize
+  // Handle window resize with debouncing
+  let resizeTimeout;
   window.addEventListener('resize', function() {
-    setTimeout(() => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
       createLineChart();
       createBarChart();
       createMultiChart();
       createPieChart();
-    }, 100);
+    }, 250);
   });
 });
 
 // Load COVID-19 data from API
 async function loadCovidData() {
   try {
-    console.log('COVID-19 Dashboard: Loading data from API...');
-    
     // Load global data
     const globalResponse = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=365');
     const globalData = await globalResponse.json();
-    console.log('COVID-19 Dashboard: Global data loaded:', globalData);
     
     // Load country data
     const countries = ['USA', 'India', 'Brazil'];
@@ -52,7 +50,6 @@ async function loadCovidData() {
     );
     
     const countryData = await Promise.all(countryPromises);
-    console.log('COVID-19 Dashboard: Country data loaded:', countryData);
     
     covidData = {
       global: processGlobalData(globalData),
@@ -65,16 +62,12 @@ async function loadCovidData() {
       }
     });
     
-    console.log('COVID-19 Dashboard: Processed data:', covidData);
-    
     // Initialize charts with a small delay to ensure containers are sized
-    console.log('COVID-19 Dashboard: Creating charts...');
     setTimeout(() => {
       createLineChart();
       createBarChart();
       createMultiChart();
       createPieChart();
-      console.log('COVID-19 Dashboard: All charts created successfully');
     }, 100);
     
   } catch (error) {
@@ -216,39 +209,26 @@ function setupEventListeners() {
 
 // Create line chart
 function createLineChart() {
-  console.log('COVID-19 Dashboard: Creating line chart...');
   const container = d3.select('#covid-line-chart');
   
   // Wait for container to be properly sized
   setTimeout(() => {
     const containerRect = container.node().getBoundingClientRect();
     
-    console.log('COVID-19 Dashboard: Line chart container dimensions:', {
-      width: containerRect.width,
-      height: containerRect.height,
-      offsetWidth: container.node().offsetWidth,
-      offsetHeight: container.node().offsetHeight,
-      clientWidth: container.node().clientWidth,
-      clientHeight: container.node().clientHeight
-    });
-    
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(20, containerWidth * 0.05),
-      bottom: Math.max(30, containerHeight * 0.1),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(40, containerHeight * 0.12),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
-    
-    console.log('COVID-19 Dashboard: Line chart calculated dimensions:', { width, height, margin });
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -375,8 +355,6 @@ function createLineChart() {
           .style('left', (event.pageX + 10) + 'px')
           .style('top', (event.pageY - 10) + 'px');
       });
-    
-    console.log('COVID-19 Dashboard: Line chart created successfully');
   }, 50);
 }
 
@@ -387,39 +365,26 @@ function updateLineChart() {
 
 // Create bar chart
 function createBarChart() {
-  console.log('COVID-19 Dashboard: Creating bar chart...');
   const container = d3.select('#covid-bar-chart');
   
   // Wait for container to be properly sized
   setTimeout(() => {
     const containerRect = container.node().getBoundingClientRect();
     
-    console.log('COVID-19 Dashboard: Bar chart container dimensions:', {
-      width: containerRect.width,
-      height: containerRect.height,
-      offsetWidth: container.node().offsetWidth,
-      offsetHeight: container.node().offsetHeight,
-      clientWidth: container.node().clientWidth,
-      clientHeight: container.node().clientHeight
-    });
-    
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(20, containerWidth * 0.05),
-      bottom: Math.max(40, containerHeight * 0.12),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(50, containerHeight * 0.15),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
-    
-    console.log('COVID-19 Dashboard: Bar chart calculated dimensions:', { width, height, margin });
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -536,8 +501,6 @@ function createBarChart() {
           .duration(500)
           .style('opacity', 0);
       });
-    
-    console.log('COVID-19 Dashboard: Bar chart created successfully');
   }, 50);
 }
 
@@ -548,39 +511,26 @@ function updateBarChart() {
 
 // Create multi-line chart
 function createMultiChart() {
-  console.log('COVID-19 Dashboard: Creating multi-line chart...');
   const container = d3.select('#covid-multi-chart');
   
   // Wait for container to be properly sized
   setTimeout(() => {
     const containerRect = container.node().getBoundingClientRect();
     
-    console.log('COVID-19 Dashboard: Multi chart container dimensions:', {
-      width: containerRect.width,
-      height: containerRect.height,
-      offsetWidth: container.node().offsetWidth,
-      offsetHeight: container.node().offsetHeight,
-      clientWidth: container.node().clientWidth,
-      clientHeight: container.node().clientHeight
-    });
-    
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 800;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
-    // Increase left margin to accommodate large Y-axis labels
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(30, containerWidth * 0.08),
-      bottom: Math.max(30, containerHeight * 0.1),
-      left: Math.max(60, containerWidth * 0.08) // Increased for Y-axis labels
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(30, containerWidth * 0.05),
+      bottom: Math.max(40, containerHeight * 0.12),
+      left: Math.max(60, containerWidth * 0.08)
     };
     
-    const width = Math.max(containerWidth - margin.left - margin.right, 400);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
-    
-    console.log('COVID-19 Dashboard: Multi chart calculated dimensions:', { width, height, margin });
+    const width = Math.max(containerWidth - margin.left - margin.right, 300);
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -707,8 +657,6 @@ function createMultiChart() {
           .style('left', (event.pageX + 10) + 'px')
           .style('top', (event.pageY - 10) + 'px');
       });
-    
-    console.log('COVID-19 Dashboard: Multi chart created successfully');
   }, 50);
 }
 
@@ -719,39 +667,27 @@ function updateMultiChart() {
 
 // Create pie chart
 function createPieChart() {
-  console.log('COVID-19 Dashboard: Creating pie chart...');
   const container = d3.select('#covid-pie-chart');
   
   // Wait for container to be properly sized
   setTimeout(() => {
     const containerRect = container.node().getBoundingClientRect();
     
-    console.log('COVID-19 Dashboard: Pie chart container dimensions:', {
-      width: containerRect.width,
-      height: containerRect.height,
-      offsetWidth: container.node().offsetWidth,
-      offsetHeight: container.node().offsetHeight,
-      clientWidth: container.node().clientWidth,
-      clientHeight: container.node().clientHeight
-    });
-    
     // Use the actual container dimensions with responsive approach
     const containerWidth = containerRect.width || container.node().offsetWidth || 600;
-    const containerHeight = containerRect.height || container.node().offsetHeight || 400;
+    const containerHeight = containerRect.height || container.node().offsetHeight || 600;
     
     // Responsive margins that scale with container size
     const margin = {
-      top: Math.max(10, containerHeight * 0.05),
-      right: Math.max(10, containerWidth * 0.03),
-      bottom: Math.max(20, containerHeight * 0.08),
-      left: Math.max(10, containerWidth * 0.03)
+      top: Math.max(20, containerHeight * 0.08),
+      right: Math.max(20, containerWidth * 0.05),
+      bottom: Math.max(30, containerHeight * 0.1),
+      left: Math.max(20, containerWidth * 0.05)
     };
     
     const width = Math.max(containerWidth - margin.left - margin.right, 300);
-    const height = Math.max(containerHeight - margin.top - margin.bottom, 200);
-    const radius = Math.min(width, height) / 2.5; // Smaller radius to fit better
-    
-    console.log('COVID-19 Dashboard: Pie chart calculated dimensions:', { width, height, radius, margin });
+    const height = Math.max(containerHeight - margin.top - margin.bottom, 300);
+    const radius = Math.min(width, height) / 2.2; // Slightly larger radius for better visibility
     
     // Clear existing chart
     container.selectAll('*').remove();
@@ -875,8 +811,6 @@ function createPieChart() {
           .duration(500)
           .style('opacity', 0);
       });
-    
-    console.log('COVID-19 Dashboard: Pie chart created successfully');
   }, 50);
 }
 
