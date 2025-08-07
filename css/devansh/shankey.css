@@ -34,7 +34,7 @@
     text-shadow: 0 1px 0 #fff;
 }
 
-.tooltip {
+.tooltip2 {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
@@ -55,7 +55,7 @@
 }
 
 /* Legend styling */
-.legend-item {
+.legend-items-stream {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
@@ -78,4 +78,9 @@
 
 .highlight-fade {
     opacity: 0.2;
+}
+
+.shankey-chart-container {
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
 }

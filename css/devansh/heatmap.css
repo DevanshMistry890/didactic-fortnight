@@ -29,7 +29,7 @@
     stroke-width: 1.5px;
 }
 
-.tooltip {
+.tooltip4 {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
@@ -63,4 +63,9 @@
     width: 100%;
     height: auto;
     max-height: 700px;
+}
+
+.heatmap-chart-container {
+    margin-top: 5vh !important;
+    margin-bottom: 10vh !important;
 }

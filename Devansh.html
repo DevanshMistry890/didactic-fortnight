@@ -170,10 +170,10 @@
       </div>
     </div>
     <div class="page__wrapper">
-      <div class="">
+      <div class="page__center">
         <div class="spider-chart-container">
-          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-4xl">
-            <div class="text-center mb-8">
+          <div class="container p-4 lg:p-8 bg-white rounded-xl shadow-lg">
+            <div class="text-center mb-6">
               <h1 class="text-3xl md:text-4xl font-bold text-gray-800">COVID-19 & Demographic Comparison</h1>
               <p class="text-gray-600 mt-2">A Spider Chart comparing USA, India, and Canada across key metrics.</p>
               <p class="text-sm text-gray-500 mt-1">Each axis represents a normalized metric. Larger areas indicate
@@ -192,21 +192,22 @@
               <p class="mt-2 text-gray-600">Loading data and preparing comparison...</p>
             </div>
 
-            <div id="spider-chart" class="w-full h-[700px] flex justify-center items-center"></div>
+            <div id="spider-chart" class="w-full h-[600px] flex justify-center items-center"></div>
             <div id="tooltip" class="tooltip"></div>
-
             <div id="legend-container" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner">
-              <h3 class="text-lg font-semibold text-gray-700 mb-4">Country Profiles</h3>
-              <div id="legend-items" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
+              <h3 class="text-lg font-semibold text-gray-700 mb-4 text-center">Country Profiles</h3>
+              <div id="legend-items-spider" class="flex flex-wrap gap-x-8 gap-y-4 items-center justify-center">
                 <!-- Legend items will be populated here by JS -->
               </div>
             </div>
+
+
           </div>
         </div>
 
         <div class="shankey-chart-container">
-          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl">
-            <div class="text-center mb-8">
+          <div class="container p-4 lg:p-8 bg-white rounded-xl shadow-lg">
+            <div class="text-center mb-6">
               <h1 class="text-3xl md:text-4xl font-bold text-gray-800">COVID-19 Case Outcomes</h1>
               <p class="text-gray-600 mt-2">A Sankey diagram showing confirmed cases flowing to ultimate outcomes.</p>
               <p class="text-sm text-gray-500 mt-1">Comparing the USA, India, and Canada. Hover over a flow or node for
@@ -225,11 +226,11 @@
             </div>
 
             <div id="sankey-chart" class="w-full h-[600px]"></div>
-            <div id="tooltip" class="tooltip"></div>
+            <div id="tooltip-sankey" class="tooltip2"></div>
 
-            <div id="legend-container" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner">
-              <h3 class="text-lg font-semibold text-gray-700 mb-4">Legend</h3>
-              <div id="legend-items" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
+            <div id="legend-container-sankey" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner">
+              <h3 class="text-lg font-semibold text-gray-700 mb-4 justify-center text-center">Country Profiles</h3>
+              <div id="legend-items-sankey" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
                 <!-- Legend items will be populated here by JS -->
               </div>
             </div>
@@ -237,8 +238,8 @@
         </div>
 
         <div class="stream-chart-container">
-          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl">
-            <div class="text-center mb-8">
+          <div class="container p-4 lg:p-8 bg-white rounded-xl shadow-lg">
+            <div class="text-center mb-6">
               <h1 class="text-3xl md:text-4xl font-bold text-gray-800">COVID-19 Search Trends in USA</h1>
               <p class="text-gray-600 mt-2">Evolution of public interest in key symptoms over time in the United States.
               </p>
@@ -258,11 +259,11 @@
             </div>
 
             <div id="streamgraph-chart" class="w-full h-[700px]"></div>
-            <div id="tooltip" class="tooltip"></div>
+            <div id="tooltip-stream" class="tooltip3"></div>
 
             <div id="legend-container" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner">
               <h3 class="text-lg font-semibold text-gray-700 mb-4">Symptom Legend</h3>
-              <div id="legend-items" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
+              <div id="legend-items-stream" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
                 <!-- Legend items will be populated here by JS -->
               </div>
             </div>
@@ -270,8 +271,8 @@
         </div>
 
         <div class="heatmap-chart-container">
-          <div class="container mx-auto p-4 lg:p-8 bg-white rounded-xl shadow-lg w-full max-w-6xl">
-            <div class="text-center mb-8">
+          <div class="container p-4 lg:p-8 bg-white rounded-xl shadow-lg">
+            <div class="text-center mb-6">
               <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Daily New COVID-19 Cases Heatmap</h1>
               <p class="text-gray-600 mt-2">Visualizing the intensity of new confirmed cases over time for USA, India,
                 and Canada.</p>
@@ -291,7 +292,7 @@
             </div>
 
             <div id="heatmap-chart" class="w-full h-[700px] overflow-x-auto"></div>
-            <div id="tooltip" class="tooltip"></div>
+            <div id="tooltip4" class="tooltip4"></div>
 
             <div id="legend-container" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner flex flex-col items-center">
               <h3 class="text-lg font-semibold text-gray-700 mb-2">New Cases Scale</h3>
