@@ -299,7 +299,7 @@
                 console.warn(`No hardcoded demographic data found for ${countryCode}. Skipping this country.`);
                 return;
             }
-            console.log(`Demographic data for ${countryCode} (hardcoded):`, countryDemo);
+            //console.log(`Demographic data for ${countryCode} (hardcoded):`, countryDemo);
 
 
             const countryMetrics = {};
@@ -309,13 +309,13 @@
                 let value;
                 if (metric.key in countryDemo) { // Check if demographic key exists in the hardcoded object
                     value = safeParseNumber(countryDemo[metric.key]);
-                    console.log(`  ${countryCode} - Hardcoded demographic value for ${metric.name} (${metric.key}): ${value}`);
+                    //console.log(`  ${countryCode} - Hardcoded demographic value for ${metric.name} (${metric.key}): ${value}`);
                 } else if (metric.key in latestValidEntry) { // Check if time-series key exists
                     value = safeParseNumber(latestValidEntry[metric.key]);
-                    console.log(`  ${countryCode} - Raw time-series value for ${metric.name} (${metric.key}): ${latestValidEntry[metric.key]}, Parsed: ${value}`);
+                    //console.log(`  ${countryCode} - Raw time-series value for ${metric.name} (${metric.key}): ${latestValidEntry[metric.key]}, Parsed: ${value}`);
                 } else {
                     value = 0; // Default to 0 if metric key not found in either source
-                    console.warn(`  ${countryCode} - Metric ${metric.name} (${metric.key}) not found in data. Using 0.`);
+                    //console.warn(`  ${countryCode} - Metric ${metric.name} (${metric.key}) not found in data. Using 0.`);
                 }
 
                 countryMetrics[metric.key] = value;
@@ -362,7 +362,7 @@
             return;
         }
 
-        console.log("Normalized Data for Spider Chart:", JSON.parse(JSON.stringify(normalizedData)));
+        //console.log("Normalized Data for Spider Chart:", JSON.parse(JSON.stringify(normalizedData)));
 
         // Initial drawing of the Spider Chart
         drawSpiderChart(normalizedData);
@@ -374,7 +374,7 @@
             originalData: d // Store full data for legend interactivity
         }));
 
-        const legendContainer = d3.select("#legend-items");
+        const legendContainer = d3.select("#legend-items-spider");
         legendContainer.selectAll("*").remove(); // Clear previous legend items
 
         const legendItems = legendContainer.selectAll(".legend-item")

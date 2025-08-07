@@ -15,7 +15,7 @@
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const tooltip = d3.select("#tooltip");
+    const tooltip = d3.select("#tooltip-stream");
     const formatValue = d3.format(".1f"); // Format search trend values
     const formatDate = d3.timeFormat("%Y-%m-%d");
 
@@ -134,7 +134,7 @@
             .order(d3.stackOrderInsideOut); // Orders layers to minimize changes
 
         const stackedData = stack(data);
-        console.log("Stacked Data for Streamgraph:", stackedData);
+        //console.log("Stacked Data for Streamgraph:", stackedData);
 
         // Determine the overall min and max of y0 and y1 from stackedData
         const allYValues = [];
@@ -148,7 +148,7 @@
         const minY = d3.min(allYValues);
         const maxY = d3.max(allYValues);
 
-        console.log(`DEBUG: yScale domain [minY, maxY]: [${minY}, ${maxY}]`);
+        //console.log(`DEBUG: yScale domain [minY, maxY]: [${minY}, ${maxY}]`);
 
         const yScale = d3.scaleLinear()
             .domain([minY, maxY])
@@ -252,10 +252,10 @@
             color: color(getSymptomDisplayName(key))
         }));
 
-        const legendContainer = d3.select("#legend-items");
+        const legendContainer = d3.select("#legend-items-stream");
         legendContainer.selectAll("*").remove(); // Clear previous legend items
 
-        const legendItems = legendContainer.selectAll(".legend-item")
+        const legendItems = legendContainer.selectAll(".legend-items-stream")
             .data(legendData)
             .enter()
             .append("div")
@@ -315,7 +315,7 @@
             return;
         }
 
-        console.log("Processed Data for Streamgraph:", processedData);
+        //console.log("Processed Data for Streamgraph:", processedData);
 
         // Initial drawing of the Streamgraph
         drawStreamgraph(processedData);
