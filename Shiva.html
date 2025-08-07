@@ -13,11 +13,9 @@
   <link rel="manifest" href="img/site.webmanifest">
   <link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="theme-color" content="#ffffff"><!-- Description no longer than 155 characters -->
+  <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Unity Dashboard Kit" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,500;1,500&amp;display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,500;1,500&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" media="all" href="css/app.min.css">
   <link rel="stylesheet" media="all" href="css/shiva.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -168,47 +166,7 @@
     <div class="page__wrapper">
       <div class="page__center">
         <div class="container">
-          <!-- KPI Cards -->
-          <div class="row mb-4">
-            <div class="col-md-3">
-              <div class="card kpi-card animate__animated animate__fadeInLeft">
-                <div class="kpi-title">Total Cases</div>
-                <div class="kpi-value" id="total-cases">-</div>
-                <div class="kpi-change positive" id="cases-change">
-                  <i class="fas fa-arrow-up me-1"></i> <span>0%</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card kpi-card animate__animated animate__fadeInLeft animate__delay-1s">
-                <div class="kpi-title">Total Deaths</div>
-                <div class="kpi-value" id="total-deaths">-</div>
-                <div class="kpi-change negative" id="deaths-change">
-                  <i class="fas fa-arrow-up me-1"></i> <span>0%</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card kpi-card animate__animated animate__fadeInLeft animate__delay-2s">
-                <div class="kpi-title">Fatality Rate</div>
-                <div class="kpi-value" id="fatality-rate">-</div>
-                <div class="kpi-change negative" id="fatality-change">
-                  <i class="fas fa-arrow-down me-1"></i> <span>0%</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card kpi-card animate__animated animate__fadeInLeft animate__delay-3s">
-                <div class="kpi-title">Active Cases</div>
-                <div class="kpi-value" id="active-cases">-</div>
-                <div class="kpi-change positive" id="active-change">
-                  <i class="fas fa-arrow-up me-1"></i> <span>0%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Main Charts - Swapped positions -->
+          <!-- Main Charts -->
           <div class="row mb-4">
             <div class="col-lg-8">
               <div class="card animate__animated animate__fadeInUp">
@@ -270,7 +228,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
         </div>
         <div id="tooltip"></div>
       </div>
@@ -380,14 +338,14 @@
           d="M.293.293a1 1 0 0 1 1.414 0l1.959 1.959L5.626.293A1 1 0 0 1 6.946.21l.094.083a1 1 0 0 1 0 1.414L4.374 4.374a1 1 0 0 1-1.414 0L.293 1.707a1 1 0 0 1 0-1.414z">
         </path>
       </symbol>
-      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 20" id="icon-wallet">
+      <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" id="icon-wallet">
         <path
           d="M15.39.25a6 6 0 0 1 5.998 5.998h0v7.177a6 6 0 0 1-5.998 5.998h0-8.643A6 6 0 0 1 .75 13.425h0V6.248A6 6 0 0 1 6.748.25h0zm0 1.5H6.748A4.5 4.5 0 0 0 2.25 6.248h0v7.177a4.5 4.5 0 0 0 4.498 4.498h8.643a4.5 4.5 0 0 0 4.498-4.498h0l-.001-.28-3.298.001c-1.9-.001-3.44-1.54-3.442-3.44 0-1.837 1.44-3.337 3.253-3.436l.19-.005h3.297l.001-.015a4.5 4.5 0 0 0-4.286-4.493l-.212-.005zm4.497 6.013H16.59c-1.073.001-1.943.87-1.943 1.94.001 1.02.79 1.858 1.8 1.936l.152.006 3.297-.001V7.763zm-2.84 1.13a.75.75 0 0 1 .102 1.493l-.102.007h-.312a.75.75 0 0 1-.102-1.493l.102-.007h.312zm-5.614-4.105a.75.75 0 0 1 .102 1.493l-.102.007h-5.4a.75.75 0 0 1-.102-1.493l.102-.007h5.4z">
         </path>
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="icon-sun">
         <path
-          d="M12 21a1 1 0 0 1 .993.883L13 22v1a1 1 0 0 1-1.993.117L11 23v-1a1 1 0 0 1 1-1zm7.713-2.7l.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7a1 1 0 0 1 1.32-1.497zm-14.106.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM12 6a6 6 0 1 1 0 12 6 6 0 1 1 0-12zm0 2a4 4 0 1 0 0 8 4 4 0 1 0 0-8zM2 11a1 1 0 0 1 .117 1.993L2 13H1a1 1 0 0 1-.117-1.993L1 11h1zm21 0a1 1 0 0 1 .117 1.993L23 13h-1a1 1 0 0 1-.117-1.993L22 11h1zM4.813 3.4l.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7a1 1 0 0 1 1.32-1.497zm15.694.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM12 0a1 1 0 0 1 .993.883L13 1v1a1 1 0 0 1-1.993.117L11 2V1a1 1 0 0 1 1-1z">
+d="M12 21a1 1 0 0 1 .993.883L13 22v1a1 1 0 0 1-1.993.117L11 23v-1a1 1 0 0 1 1-1zm7.713-2.7l.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7a1 1 0 0 1 1.32-1.497zm-14.106.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM12 6a6 6 0 1 1 0 12 6 6 0 1 1 0-12zm0 2a4 4 0 1 0 0 8 4 4 0 1 0 0-8zM2 11a1 1 0 0 1 .117 1.993L2 13H1a1 1 0 0 1-.117-1.993L1 11h1zm21 0a1 1 0 0 1 .117 1.993L23 13h-1a1 1 0 0 1-.117-1.993L22 11h1zM4.813 3.4l.094.083.7.7a1 1 0 0 1-1.32 1.497l-.094-.083-.7-.7a1 1 0 0 1 1.32-1.497zm15.694.083a1 1 0 0 1 .083 1.32l-.083.094-.7.7a1 1 0 0 1-1.497-1.32l.083-.094.7-.7a1 1 0 0 1 1.414 0zM12 0a1 1 0 0 1 .993.883L13 1v1a1 1 0 0 1-1.993.117L11 2V1a1 1 0 0 1 1-1z">
         </path>
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" id="icon-star">
@@ -417,7 +375,7 @@
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18" id="icon-print">
         <path
-          d="M13.5 5.5a4 4 0 0 1 3.995 3.8l.005.2v4a1 1 0 0 1-.883.993l-.117.007h-2v2a1 1 0 0 1-.883.993l-.117.007h-9a1 1 0 0 1-1-1h0v-2h-2a1 1 0 0 1-.993-.883L.5 13.5v-4a4 4 0 0 1 3.8-3.995l.2-.005h9zm-1 6h-7v4h7v-4zm1-4h-9a2 2 0 0 0-1.995 1.851L2.5 9.5v3h1v-2a1 1 0 0 1 .883-.993L4.5 9.5h9a1 1 0 0 1 1 1h0v2h1v-3a2 2 0 0 0-1.851-1.995L13.5 7.5zm0-7a1 1 0 0 1 .993.883l.007.117v3a1 1 0 0 1-1.993.117L12.5 4.5v-2h-7v2a1 1 0 0 1-.883.993L4.5 5.5a1 1 0 0 1-.993-.883L3.5 4.5v-3a1 1 0 0 1 .883-.993L4.5.5h9z">
+          d="M13.5 5.5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 1 1 2 0v7h9V6a1 1 0 0 1 .883-.993L14 5.5zm-3 1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5zm-1 2H7v1h3V8zm6-8a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h15z">
         </path>
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22" id="icon-plus-square">
@@ -532,7 +490,7 @@
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17 15" id="icon-box">
         <path
-          d="M14 5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 1 1 2 0v7h9V6a1 1 0 0 1 .883-.993L14 5zm-3 1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5zm-1 2H7v1h3V8zm6-8a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h15zm-1 2H2v1h13V2z">
+          d="M14 5a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 1 1 2 0v7h9V6a1 1 0 0 1 .883-.993L14 5.5zm-3 1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5zm-1 2H7v1h3V8zm6-8a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1a1 1 0 0 1 1-1h15z">
         </path>
       </symbol>
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 24" id="icon-bell">
