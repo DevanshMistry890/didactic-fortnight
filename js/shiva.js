@@ -7,7 +7,7 @@ async function fetchData() {
         });
 
         // Fetch COVID-19 data
-        const historicalResponse = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=60');
+        const historicalResponse = await fetch('https://disease.sh/v3/covid-19/historical/all?lastdays=500');
         const historicalData = await historicalResponse.json();
 
         // Fetch vaccine data (simulated since API doesn't provide historical vaccine data)
@@ -69,70 +69,11 @@ function processData(rawData, vaccineData) {
     const dailyCases = calculateDailyChanges(casesData, 'cases');
     const dailyDeaths = calculateDailyChanges(deathsData, 'deaths');
 
-    // Calculate KPIs
-    const latest = dailyCases[dailyCases.length - 1];
-    const weekAgo = dailyCases[dailyCases.length - 8];
-
-    const totalCases = latest.cases;
-    const totalDeaths = deathsData[deathsData.length - 1].deaths;
-
-    // Calculate recovery rate (estimate if not available)
-    let totalRecovered;
-    if (rawData.recovered) {
-        totalRecovered = Object.values(rawData.recovered).slice(-1)[0];
-    } else {
-        // Estimate recovery rate (80-95% of non-fatal cases)
-        totalRecovered = Math.round((totalCases - totalDeaths) * 0.9);
-    }
-
-    const recoveryRate = (totalRecovered / totalCases) * 100;
-    const fatalityRate = (totalDeaths / totalCases) * 100;
-    const activeCases = totalCases - totalDeaths - totalRecovered;
-
-    const casesChange = ((latest.cases - weekAgo.cases) / weekAgo.cases) * 100;
-    const deathsChange = ((deathsData[deathsData.length - 1].deaths - deathsData[deathsData.length - 8].deaths) / deathsData[deathsData.length - 8].deaths) * 100;
-    const recoveryChange = 1.2; // Sample positive change
-    const fatalityChange = -0.5; // Sample negative change
-    const activeChange = 2.5; // Sample change
-
     return {
-        cumulative: { cases: casesData, deaths: deathsData, recovered: totalRecovered },
+        cumulative: { cases: casesData, deaths: deathsData },
         daily: { cases: dailyCases, deaths: dailyDeaths },
-        vaccine: vaccineData,
-        kpis: {
-            totalCases,
-            totalDeaths,
-            recoveryRate,
-            fatalityRate,
-            activeCases,
-            casesChange,
-            deathsChange,
-            recoveryChange,
-            fatalityChange,
-            activeChange
-        }
+        vaccine: vaccineData
     };
-}
-
-function updateKPIs(kpis) {
-    const totalCasesEl = document.getElementById('total-cases');
-    const totalDeathsEl = document.getElementById('total-deaths');
-    const fatalityRateEl = document.getElementById('fatality-rate');
-    const activeCasesEl = document.getElementById('active-cases');
-    const casesChangeEl = document.getElementById('cases-change');
-    const deathsChangeEl = document.getElementById('deaths-change');
-    const fatalityChangeEl = document.getElementById('fatality-change');
-    const activeChangeEl = document.getElementById('active-change');
-
-    if (totalCasesEl) totalCasesEl.textContent = kpis.totalCases.toLocaleString();
-    if (totalDeathsEl) totalDeathsEl.textContent = kpis.totalDeaths.toLocaleString();
-    if (fatalityRateEl) fatalityRateEl.textContent = kpis.fatalityRate.toFixed(2) + '%';
-    if (activeCasesEl) activeCasesEl.textContent = kpis.activeCases.toLocaleString();
-
-    if (casesChangeEl) casesChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.casesChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.casesChange).toFixed(2)}%`;
-    if (deathsChangeEl) deathsChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.deathsChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.deathsChange).toFixed(2)}%`;
-    if (fatalityChangeEl) fatalityChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.fatalityChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.fatalityChange).toFixed(2)}%`;
-    if (activeChangeEl) activeChangeEl.innerHTML = `<i class="fas fa-arrow-${kpis.activeChange >= 0 ? 'up' : 'down'} me-1"></i> ${Math.abs(kpis.activeChange).toFixed(2)}%`;
 }
 
 function createBarChart(data) {
@@ -140,7 +81,7 @@ function createBarChart(data) {
     if (!container) return;
 
     const dailyCases = data.daily.cases.slice(-30);
-    const margin = { top: 20, right: 30, bottom: 50, left: 60 };
+    const margin = { top: 40, right: 30, bottom: 70, left: 60 };
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -149,7 +90,7 @@ function createBarChart(data) {
     const svg = d3.select("#barChart")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", height + margin.top + margin.bottom + 40)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -165,15 +106,9 @@ function createBarChart(data) {
         .nice()
         .range([height, 0]);
 
-    // Color scale - using purple shades
-    const color = d3.scaleOrdinal()
-        .domain(dailyCases.map((d, i) => i))
-        .range(dailyCases.map((d, i) => {
-            // Create purple color variations
-            const basePurple = 100;
-            const variation = Math.floor((i % 5) * 30);
-            return `rgb(${100 + variation}, ${80 + variation}, ${200 + variation})`;
-        }));
+    // Color scale
+    const color = d3.scaleSequential(d3.interpolateBlues)
+        .domain([0, dailyCases.length - 1]);
 
     // Add grid lines
     svg.append("g")
@@ -182,19 +117,38 @@ function createBarChart(data) {
             .tickSize(-width)
             .tickFormat(""));
 
-    // Add X axis
+    // Add X axis with proper spacing for rotated labels
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)");
 
-    // Add Y axis
+    // Add Y axis without top line
     svg.append("g")
-        .call(d3.axisLeft(y).ticks(6));
+        .call(d3.axisLeft(y).tickSizeOuter(0));
+
+    // Add X axis label (below the rotated dates)
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom + 20)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Date");
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -margin.left + 20)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
 
     // Add bars with animation
     svg.selectAll(".bar")
@@ -230,6 +184,33 @@ function createBarChart(data) {
         .delay((d, i) => i * 30)
         .attr("y", d => y(d.daily_cases))
         .attr("height", d => height - y(d.daily_cases));
+
+    // Add chart title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Daily New Cases");
+
+    // Add legend
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(0,${height + 40})`);
+
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", "#3c6fdc");
+
+    legend.append("text")
+        .attr("x", 20)
+        .attr("y", 10)
+        .text("Number of Daily Cases")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
 }
 
 function createCaseFatalityChart(data) {
@@ -245,7 +226,7 @@ function createCaseFatalityChart(data) {
             (data.daily.deaths[i].daily_deaths / d.daily_cases) * 100 : 0
     })).filter(d => d.newCases > 0).slice(-30);
 
-    const margin = { top: 20, right: 30, bottom: 50, left: 60 };
+    const margin = { top: 40, right: 30, bottom: 100, left: 60 };
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -272,19 +253,7 @@ function createCaseFatalityChart(data) {
     // Size scale
     const size = d3.scaleSqrt()
         .domain([0, d3.max(dailyData, d => d.newDeaths)])
-        .range([3, 25]);
-
-    // Color scale - green, orange, yellow
-    const color = d3.scaleOrdinal()
-        .domain(dailyData.map((d, i) => i))
-        .range(dailyData.map((d, i) => {
-            const colors = [
-                'rgb(0, 184, 148)',    // green
-                'rgb(253, 203, 110)',  // orange
-                'rgb(255, 234, 167)'   // light yellow
-            ];
-            return colors[i % 3];
-        }));
+        .range([5, 30]);
 
     // Add grid lines
     svg.append("g")
@@ -300,30 +269,30 @@ function createCaseFatalityChart(data) {
             .tickSize(-height)
             .tickFormat(""));
 
-    // Add X axis
+    // Add X axis without top line
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).tickSizeOuter(0));
 
-    // Add Y axis
+    // Add Y axis without right line
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y).tickSizeOuter(0));
 
-    // Add bubbles
     svg.selectAll(".bubble")
         .data(dailyData)
         .enter().append("circle")
-        .attr("class", "bubble")
+        .attr("class", d => {
+            if (d.fatalityRate > 5) return "bubble bubble-high";
+            if (d.fatalityRate > 2) return "bubble bubble-medium";
+            return "bubble bubble-low";
+        })
         .attr("cx", width / 2)
         .attr("cy", height / 2)
         .attr("r", 0)
-        .attr("fill", (d, i) => color(i))
         .attr("opacity", 0.8)
-        .attr("stroke", "#fff")
         .attr("stroke-width", 1.5)
         .on("mouseover", function (event, d) {
             d3.select(this)
-                .attr("stroke", "#333")
                 .attr("stroke-width", 2);
 
             const tooltip = d3.select("#tooltip");
@@ -339,7 +308,6 @@ function createCaseFatalityChart(data) {
         })
         .on("mouseout", function () {
             d3.select(this)
-                .attr("stroke", "#fff")
                 .attr("stroke-width", 1.5);
             d3.select("#tooltip").style("opacity", 0);
         })
@@ -349,6 +317,64 @@ function createCaseFatalityChart(data) {
         .attr("cx", d => x(d.newCases))
         .attr("cy", d => y(d.fatalityRate))
         .attr("r", d => size(d.newDeaths));
+
+    // Add chart title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Case Fatality Rate Analysis");
+
+    // Add axis labels
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + 50)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Number of New Cases");
+
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2)
+        .attr("y", -40)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Fatality Rate (%)");
+
+    // Add legend
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(0,${height + 70})`);
+
+    // Color legend
+    const colorLegendData = [
+        { label: "High Fatality (>5%)", class: "bubble-high" },
+        { label: "Medium Fatality (2-5%)", class: "bubble-medium" },
+        { label: "Low Fatality (<2%)", class: "bubble-low" }
+    ];
+
+    colorLegendData.forEach((item, i) => {
+        const g = legend.append("g")
+            .attr("transform", `translate(${i * 150}, 0)`);
+
+        g.append("circle")
+            .attr("r", 6)
+            .attr("cx", 0)
+            .attr("cy", 0)
+            .attr("class", item.class);
+
+        g.append("text")
+            .attr("x", 15)
+            .attr("y", 0)
+            .attr("dy", "0.35em")
+            .text(item.label)
+            .style("font-size", "10px")
+            .style("fill", "var(--text-color)");
+    });
 }
 
 function createLineChart(data) {
@@ -356,22 +382,22 @@ function createLineChart(data) {
     if (!container) return;
 
     const dailyCases = data.daily.cases;
-    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const margin = { top: 40, right: 50, bottom: 60, left: 70 };
     const width = container.clientWidth - margin.left - margin.right;
-    const height = 250 - margin.top - margin.bottom;
+    const height = 300 - margin.top - margin.bottom;
 
     d3.select("#lineChart").html("");
 
     const svg = d3.select("#lineChart")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", height + margin.top + margin.bottom + 30)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // Aggregate data by week (last 8 weeks)
     const weeklyData = [];
-    const startIndex = Math.max(0, dailyCases.length - 56); // 8 weeks of data
+    const startIndex = Math.max(0, dailyCases.length - 56);
     for (let i = startIndex; i < dailyCases.length; i += 7) {
         const weekCases = dailyCases.slice(i, Math.min(i + 7, dailyCases.length)).reduce((sum, d) => sum + d.daily_cases, 0);
         weeklyData.push({
@@ -393,46 +419,50 @@ function createLineChart(data) {
         .nice()
         .range([height, 0]);
 
-    // Line generator with different colors for segments
+    // Line generator
     const line = d3.line()
         .x(d => x(d.label) + x.bandwidth() / 2)
         .y(d => y(d.cases))
         .curve(d3.curveMonotoneX);
 
-    // Add line path with gradient color
-    const defs = svg.append("defs");
-    const gradient = defs.append("linearGradient")
-        .attr("id", "line-gradient")
-        .attr("x1", "0%")
-        .attr("y1", "0%")
-        .attr("x2", "100%")
-        .attr("y2", "0%");
+    // Add Y axis with improved formatting and no top line
+    const yAxis = d3.axisLeft(y)
+        .ticks(6)
+        .tickFormat(d => {
+            if (d >= 1000000) return `${(d/1000000).toFixed(1)}M`;
+            if (d >= 1000) return `${(d/1000).toFixed(0)}k`;
+            return d;
+        })
+        .tickSizeOuter(0);
 
-    gradient.append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", "#6c5ce7");
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .selectAll(".tick text")
+        .style("font-size", "12px")
+        .style("fill", "var(--axis-color)");
 
-    gradient.append("stop")
-        .attr("offset", "50%")
-        .attr("stop-color", "#00b894");
+    // Add grid lines
+    svg.append("g")
+        .attr("class", "grid")
+        .call(d3.axisLeft(y)
+            .tickSize(-width)
+            .tickFormat(""));
 
-    gradient.append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", "#fdcb6e");
-
+    // Add line path
     svg.append("path")
         .datum(weeklyData)
         .attr("fill", "none")
-        .attr("stroke", "url(#line-gradient)")
+        .attr("stroke", "#3c6fdc")
         .attr("stroke-width", 3)
-        .attr("stroke-dasharray", function () { return this.getTotalLength() })
-        .attr("stroke-dashoffset", function () { return this.getTotalLength() })
+        .attr("stroke-dasharray", function() { return this.getTotalLength() })
+        .attr("stroke-dashoffset", function() { return this.getTotalLength() })
         .attr("d", line)
         .transition()
         .duration(1500)
         .attr("stroke-dashoffset", 0);
 
-    // Add dots with different colors
+    // Add dots
     svg.selectAll(".dot")
         .data(weeklyData)
         .enter().append("circle")
@@ -440,11 +470,8 @@ function createLineChart(data) {
         .attr("cx", d => x(d.label) + x.bandwidth() / 2)
         .attr("cy", height)
         .attr("r", 0)
-        .attr("fill", (d, i) => {
-            const colors = ['#6c5ce7', '#00b894', '#fdcb6e', '#d63031', '#a29bfe'];
-            return colors[i % colors.length];
-        })
-        .on("mouseover", function (event, d) {
+        .attr("fill", "#3c6fdc")
+        .on("mouseover", function(event, d) {
             d3.select(this).attr("r", 6);
 
             const tooltip = d3.select("#tooltip");
@@ -457,7 +484,7 @@ function createLineChart(data) {
                 .style("left", (event.pageX + 15) + "px")
                 .style("top", (event.pageY - 30) + "px");
         })
-        .on("mouseout", function () {
+        .on("mouseout", function() {
             d3.select(this).attr("r", 4);
             d3.select("#tooltip").style("opacity", 0);
         })
@@ -467,14 +494,70 @@ function createLineChart(data) {
         .attr("cy", d => y(d.cases))
         .attr("r", 4);
 
-    // Add X axis
+    // Add X axis without top line
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).tickSizeOuter(0))
+        .selectAll(".tick text")
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text(d => `WEEK ${d.split(" ")[1]}`);
 
-    // Add Y axis
-    svg.append("g")
-        .call(d3.axisLeft(y));
+    // Add X axis label
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Week Number");
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 15)
+        .attr("x", -height / 2)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Total Number of Cases");
+
+    // Add chart title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Weekly Case Trends");
+
+    // Add legend
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(0,${height + 40})`);
+
+    legend.append("line")
+        .attr("x1", 0)
+        .attr("x2", 20)
+        .attr("y1", 0)
+        .attr("y2", 0)
+        .attr("stroke", "#3c6fdc")
+        .attr("stroke-width", 2);
+
+    legend.append("circle")
+        .attr("cx", 50)
+        .attr("cy", 0)
+        .attr("r", 4)
+        .attr("fill", "#3c6fdc");
+
+    legend.append("text")
+        .attr("x", 70)
+        .attr("y", 0)
+        .attr("dy", "0.35em")
+        .text("Weekly COVID-19 Cases")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
 }
 
 function createStackedBarChart(data) {
@@ -482,9 +565,9 @@ function createStackedBarChart(data) {
     if (!container) return;
 
     const vaccineData = data.vaccine;
-    const margin = { top: 20, right: 30, bottom: 40, left: 50 };
+    const margin = { top: 40, right: 30, bottom: 80, left: 50 };
     const width = container.clientWidth - margin.left - margin.right;
-    const height = 250 - margin.top - margin.bottom;
+    const height = 300 - margin.top - margin.bottom;
 
     d3.select("#stackedBarChart").html("");
 
@@ -507,7 +590,7 @@ function createStackedBarChart(data) {
         .nice()
         .range([height, 0]);
 
-    // Add bars with green shades
+    // Add bars
     svg.selectAll(".bar")
         .data(vaccineData)
         .enter().append("rect")
@@ -516,12 +599,7 @@ function createStackedBarChart(data) {
         .attr("width", x.bandwidth())
         .attr("y", height)
         .attr("height", 0)
-        .attr("fill", (d, i) => {
-            // Create blue color variations
-            const baseBlue = 100;
-            const variation = Math.floor((i % 5) * 30);
-            return `rgb(${50 + variation}, ${120 + variation}, ${200 + variation})`;
-        })
+        .attr("fill", "#00b894")
         .attr("rx", 3)
         .attr("ry", 3)
         .on("mouseover", function (event, d) {
@@ -547,19 +625,19 @@ function createStackedBarChart(data) {
         .attr("y", d => y(d.daily))
         .attr("height", d => height - y(d.daily));
 
-    // Add X axis
+    // Add X axis without top line
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
+        .call(d3.axisBottom(x).tickSizeOuter(0))
         .selectAll("text")
         .style("text-anchor", "end")
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)");
 
-    // Add Y axis
+    // Add Y axis without top line
     svg.append("g")
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y).tickSizeOuter(0));
 
     // Add target line
     svg.append("line")
@@ -570,6 +648,70 @@ function createStackedBarChart(data) {
         .attr("stroke", "#f72585")
         .attr("stroke-width", 1)
         .attr("stroke-dasharray", "5,5");
+
+    // Add chart title
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", -10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .style("font-weight", "bold")
+        .text("Daily Vaccination Progress");
+
+    // Add X axis label
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + margin.bottom - 10)
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Date");
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 15)
+        .attr("x", -height / 2)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
+
+    // Add legend
+    const legend = svg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(0,${height + 50})`);
+
+    // Vaccination bars legend
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", "#00b894");
+
+    legend.append("text")
+        .attr("x", 20)
+        .attr("y", 10)
+        .text("Number of Vaccinations on Daily")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
+
+    // Target line legend
+    legend.append("line")
+        .attr("x1", width / 2)
+        .attr("x2", width / 2 + 20)
+        .attr("y1", 6)
+        .attr("y2", 6)
+        .attr("stroke", "#f72585")
+        .attr("stroke-width", 1)
+        .attr("stroke-dasharray", "5,5");
+
+    legend.append("text")
+        .attr("x", width / 2 + 30)
+        .attr("y", 10)
+        .text("Daily Target (100,000)")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)");
 }
 
 function calculate7DayAvg(data, index, key) {
@@ -586,7 +728,6 @@ async function drawAllCharts() {
         return;
     }
 
-    updateKPIs(data.kpis);
     createBarChart(data);
     createCaseFatalityChart(data);
     createLineChart(data);
