@@ -1,4 +1,4 @@
-body {
+.spider-chart-container {
     font-family: inherit;
     background-color: #f3f4f6;
     color: #111827;
@@ -75,4 +75,9 @@ body {
 .legend-text {
     font-size: 14px;
     color: #374151;
+}
+
+.spider-chart-container {
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
 }

@@ -23,7 +23,7 @@
     fill: #4b5563;
 }
 
-.tooltip {
+.tooltip3 {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
@@ -64,4 +64,9 @@
 .legend-text {
     font-size: 14px;
     color: #374151;
+}
+
+.stream-chart-container {
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
 }
