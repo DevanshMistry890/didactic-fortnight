@@ -1,10 +1,13 @@
 :root {
     --primary: #3c6fdc;
-    --primary-dark: #3c6fdc;
+    --primary-dark: #2a5bc5;
     --secondary: #a29bfe;
     --success: #00b894;
     --danger: #d63031;
     --warning: #fdcb6e;
+    --info: #0984e3;
+    --purple: #6c5ce7;
+    --pink: #fd79a8;
     --light: #f8f9fa;
     --dark: #212529;
     --gray: #6c757d;
@@ -25,33 +28,17 @@
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    overflow-x: hidden;
-    transition: background-color 0.3s ease;
+/* Base Chart Container Styles */
+.chart-container {
+    height: 350px;
+    width: 80%;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    transition: all 0.3s ease;
 }
 
-.navbar {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    box-shadow: 0 4px 20px rgba(226, 223, 223, 0.3);
-    padding: 1rem 2rem;
-}
-
-.navbar-brand {
-    font-weight: 700;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.navbar-brand i {
-    margin-right: 10px;
-    font-size: 1.8rem;
-    animation: pulse 2s infinite;
-}
-
+/* Card Styles */
 .card {
     border: none;
     border-radius: 12px;
@@ -59,80 +46,28 @@ body {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     overflow: hidden;
     background: var(--card-bg);
+    margin-bottom: 30px;
 }
 
 .card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px var(--shadow-color);
+    box-shadow: 0 10px 30px var(--shadow-color);
 }
 
 .card-header {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    border-bottom: none;
-    padding: 1.2rem;
-}
-
-.kpi-card {
-    text-align: center;
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 15px var(--shadow-color);
-}
-
-.kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--success), var(--warning));
-}
-
-.kpi-value {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin: 0.5rem 0;
+    background: var(--card-bg);
     color: var(--primary);
-    text-shadow: 0 2px 4px rgba(108, 92, 231, 0.2);
+    border-bottom: 1px solid var(--grid-color);
+    padding: 1.2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
 }
 
-.kpi-title {
-    font-size: 1rem;
-    color: var(--gray);
-    margin-bottom: 0.5rem;
+.card:hover .card-header {
+    color: var(--primary-dark);
 }
 
-.kpi-change {
-    font-size: 0.9rem;
-    font-weight: 500;
-    padding: 0.2rem 0.8rem;
-    border-radius: 20px;
-    display: inline-block;
-}
-
-.positive {
-    background-color: rgba(0, 184, 148, 0.1);
-    color: var(--success);
-}
-
-.negative {
-    background-color: rgba(214, 48, 49, 0.1);
-    color: var(--danger);
-}
-
-.chart-container {
-    height: 300px;
-    width: 100%;
-    position: relative;
-}
-
-.mini-chart {
-    height: 250px;
-}
-
+/* Tooltip Styles */
 #tooltip {
     position: absolute;
     background: var(--card-bg);
@@ -146,6 +81,8 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
     color: var(--text-color);
+    max-width: 200px;
+    transform: translate(-50%, -100%);
 }
 
 #tooltip strong {
@@ -154,50 +91,182 @@ body {
     margin-bottom: 5px;
 }
 
-.pulse-animation {
-    animation: pulse 2s infinite;
+/* Bar Chart Styles */
+.bar {
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    will-change: transform, opacity;
 }
 
-.shake-animation:hover {
-    animation: shake 0.5s;
+.bar:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    filter: brightness(1.1);
 }
 
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
-
-    100% {
-        transform: scale(1);
-    }
+/* Bubble Chart Styles */
+.bubble-low {
+    fill: #00b894;
+    stroke: #00a884;
+    transition: transform 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease;
+    transform-origin: center;
+    will-change: transform;
 }
 
-@keyframes shake {
-    0% {
-        transform: translateX(0);
-    }
-
-    25% {
-        transform: translateX(-5px);
-    }
-
-    50% {
-        transform: translateX(5px);
-    }
-
-    75% {
-        transform: translateX(-5px);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
+.bubble-low:hover {
+    opacity: 0.9;
+    stroke-width: 2px;
+    transform: scale(1.05);
 }
 
+.bubble-medium {
+    fill: #fdcb6e;
+    stroke: #fdbb46;
+    transition: transform 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.bubble-medium:hover {
+    opacity: 0.9;
+    stroke-width: 2px;
+    transform: scale(1.05);
+}
+
+.bubble-high {
+    fill: #d63031;
+    stroke: #c62020;
+    transition: transform 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.bubble-high:hover {
+    opacity: 0.9;
+    stroke-width: 2px;
+    transform: scale(1.05);
+}
+
+.bubble-extra {
+    fill: #6c5ce7;
+    stroke: #5c4cd7;
+    transition: transform 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease;
+    transform-origin: center;
+    will-change: transform;
+}
+
+.bubble-extra:hover {
+    opacity: 0.9;
+    stroke-width: 2px;
+    transform: scale(1.05);
+}
+
+/* Line Chart Styles */
+.line-series-1 {
+    stroke: #3c6fdc;
+    fill: none;
+    stroke-width: 2.5px;
+    transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.line-series-1:hover {
+    stroke-width: 3.5px;
+    opacity: 0.9;
+}
+
+.line-series-2 {
+    stroke: #00b894;
+    fill: none;
+    stroke-width: 2.5px;
+    transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.line-series-2:hover {
+    stroke-width: 3.5px;
+    opacity: 0.9;
+}
+
+.line-series-3 {
+    stroke: #6c5ce7;
+    fill: none;
+    stroke-width: 2.5px;
+    transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.line-series-3:hover {
+    stroke-width: 3.5px;
+    opacity: 0.9;
+}
+
+.line-series-4 {
+    stroke: #fd79a8;
+    fill: none;
+    stroke-width: 2.5px;
+    transition: stroke-width 0.3s ease, opacity 0.3s ease;
+}
+
+.line-series-4:hover {
+    stroke-width: 3.5px;
+    opacity: 0.9;
+}
+
+.dot {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    will-change: r, fill;
+}
+
+.dot:hover {
+    r: 6;
+    fill: var(--primary-dark);
+}
+
+/* Stacked Bar Chart Styles */
+.stacked-bar .bar {
+    transition: all 0.3s ease;
+}
+
+.stacked-bar .bar:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* Legend Styles */
+.legend {
+    font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 15px;
+    padding: 0 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 5px 0;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.legend-item:hover {
+    transform: translateX(3px);
+}
+
+.legend-color {
+    width: 14px;
+    height: 14px;
+    margin-right: 8px;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+.legend-item:hover .legend-color {
+    transform: scale(1.2);
+}
+
+/* Loading Spinner */
 .loading-spinner {
     display: flex;
     justify-content: center;
@@ -215,42 +284,80 @@ body {
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-.footer {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    color: white;
-    padding: 1.5rem;
-    margin-top: 2rem;
-    text-align: center;
-}
-
+/* Axis and Grid Styles */
 .axis text {
     fill: var(--axis-color);
     font-size: 12px;
+    text-anchor: middle;
+    transition: fill 0.3s ease;
+}
+
+.y-axis text {
+    dominant-baseline: middle;
 }
 
 .grid line {
     stroke: var(--grid-color);
-    stroke-opacity: 0.7;
+    stroke-opacity: 0.3;
+    shape-rendering: crispEdges;
+    transition: stroke-opacity 0.3s ease;
 }
 
-.axis path {
+.axis path, .axis line {
     stroke: var(--grid-color);
+    shape-rendering: crispEdges;
+    transition: stroke 0.3s ease;
 }
 
-.theme-toggle {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin-left: 15px;
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 300px;
+        width: 90%;
+    }
+    
+    .legend {
+        gap: 15px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-container {
+        width: 95%;
+        padding: 10px;
+    }
+    
+    .legend {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* Animation for chart elements */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-element {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Improved Y-axis styling */
+.y.axis text {
+    font-size: 12px !important;
+    fill: var(--axis-color) !important;
+    text-anchor: end !important;
+    dominant-baseline: middle !important;
+}
+
+/* Ensure axis labels don't get cut off */
+svg {
+    overflow: visible;
 }
