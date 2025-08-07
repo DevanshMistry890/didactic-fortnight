@@ -81,7 +81,7 @@ function createBarChart(data) {
     if (!container) return;
 
     const dailyCases = data.daily.cases.slice(-30);
-    const margin = { top: 40, right: 30, bottom: 70, left: 60 };
+    const margin = { top: 40, right: 30, bottom: 70, left: 90 };
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -102,7 +102,7 @@ function createBarChart(data) {
 
     // Y scale
     const y = d3.scaleLinear()
-        .domain([0, d3.max(dailyCases, d => d.daily_cases) * 1.1])
+        .domain([0, d3.max(dailyCases, d => d.daily_cases) * 1.15])
         .nice()
         .range([height, 0]);
 
@@ -127,9 +127,15 @@ function createBarChart(data) {
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)");
 
-    // Add Y axis without top line
+    // Add Y axis with custom formatting (0k, 10k, 20k, etc.)
     svg.append("g")
-        .call(d3.axisLeft(y).tickSizeOuter(0));
+        .call(d3.axisLeft(y)
+            .tickSizeOuter(0)
+            .tickPadding(10)
+            .tickFormat(d => {
+                if (d === 0) return "0k"; // Show 0k for zero
+                return `${(d/1000).toFixed(0)}k`; // Convert to k notation
+            }));
 
     // Add X axis label (below the rotated dates)
     svg.append("text")
@@ -140,16 +146,18 @@ function createBarChart(data) {
         .style("fill", "var(--text-color)")
         .text("Date");
 
-    // Add Y axis label
+    // Add Y axis label with more spacing
     svg.append("text")
         .attr("transform", "rotate(-90)")
         .attr("x", -height / 2)
-        .attr("y", -margin.left + 20)
+        .attr("y", -margin.left + 30)
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .style("font-size", "12px")
-        .style("fill", "var(--text-color)");
+        .style("fill", "var(--text-color)")
+        .text("Number of Cases");
 
+    // [Rest of your bar chart code remains unchanged...]
     // Add bars with animation
     svg.selectAll(".bar")
         .data(dailyCases)
@@ -565,7 +573,7 @@ function createStackedBarChart(data) {
     if (!container) return;
 
     const vaccineData = data.vaccine;
-    const margin = { top: 40, right: 30, bottom: 80, left: 50 };
+    const margin = { top: 40, right: 30, bottom: 80, left: 90 };
     const width = container.clientWidth - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
 
@@ -590,6 +598,27 @@ function createStackedBarChart(data) {
         .nice()
         .range([height, 0]);
 
+    // Add Y axis with k notation
+    svg.append("g")
+        .call(d3.axisLeft(y)
+            .tickSizeOuter(0)
+            .tickPadding(10)
+            .tickFormat(d => {
+                if (d === 0) return "0k";
+                return `${(d/1000).toFixed(0)}k`;
+            }));
+
+    // Add Y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -margin.left + 30)
+        .attr("x", -height / 2)
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .style("fill", "var(--text-color)")
+        .text("Number of Vaccinations");
+
     // Add bars
     svg.selectAll(".bar")
         .data(vaccineData)
@@ -604,7 +633,6 @@ function createStackedBarChart(data) {
         .attr("ry", 3)
         .on("mouseover", function (event, d) {
             d3.select(this).attr("opacity", 0.8);
-
             const tooltip = d3.select("#tooltip");
             tooltip.html(`
                 <strong>${d.formattedDate}</strong>
@@ -625,7 +653,7 @@ function createStackedBarChart(data) {
         .attr("y", d => y(d.daily))
         .attr("height", d => height - y(d.daily));
 
-    // Add X axis without top line
+    // Add X axis
     svg.append("g")
         .attr("transform", `translate(0,${height})`)
         .call(d3.axisBottom(x).tickSizeOuter(0))
@@ -634,10 +662,6 @@ function createStackedBarChart(data) {
         .attr("dx", "-.8em")
         .attr("dy", ".15em")
         .attr("transform", "rotate(-45)");
-
-    // Add Y axis without top line
-    svg.append("g")
-        .call(d3.axisLeft(y).tickSizeOuter(0));
 
     // Add target line
     svg.append("line")
@@ -667,16 +691,6 @@ function createStackedBarChart(data) {
         .style("fill", "var(--text-color)")
         .text("Date");
 
-    // Add Y axis label
-    svg.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", -margin.left + 15)
-        .attr("x", -height / 2)
-        .attr("dy", "1em")
-        .style("text-anchor", "middle")
-        .style("font-size", "12px")
-        .style("fill", "var(--text-color)");
-
     // Add legend
     const legend = svg.append("g")
         .attr("class", "legend")
@@ -692,7 +706,7 @@ function createStackedBarChart(data) {
     legend.append("text")
         .attr("x", 20)
         .attr("y", 10)
-        .text("Number of Vaccinations on Daily")
+        .text("Daily Vaccinations")
         .style("font-size", "12px")
         .style("fill", "var(--text-color)");
 
@@ -709,7 +723,7 @@ function createStackedBarChart(data) {
     legend.append("text")
         .attr("x", width / 2 + 30)
         .attr("y", 10)
-        .text("Daily Target (100,000)")
+        .text("Daily Target (100k)")
         .style("font-size", "12px")
         .style("fill", "var(--text-color)");
 }
