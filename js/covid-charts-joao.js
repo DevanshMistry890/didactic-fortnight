@@ -315,6 +315,54 @@ function createLineChart() {
     svg.append('g')
       .call(yAxis);
     
+    // Add legend
+    const legendData = [
+      { label: 'Total Cases', color: colors.cases }
+    ];
+    
+    const legendSpacing = Math.max(15, width / 30);
+    const legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 120}, 20)`);
+    
+    const legendRectSize = Math.max(12, width / 100);
+    legend.selectAll('.legend-item')
+      .data(legendData)
+      .enter()
+      .append('g')
+      .attr('class', 'legend-item')
+      .attr('transform', (d, i) => `translate(0, ${i * legendSpacing})`)
+      .each(function(d) {
+        const g = d3.select(this);
+        
+        // Add legend line
+        g.append('line')
+          .attr('x1', 0)
+          .attr('y1', legendRectSize / 2)
+          .attr('x2', legendRectSize)
+          .attr('y2', legendRectSize / 2)
+          .attr('stroke', d.color)
+          .attr('stroke-width', Math.max(2, width / 200));
+        
+        // Add legend dot
+        g.append('circle')
+          .attr('cx', legendRectSize / 2)
+          .attr('cy', legendRectSize / 2)
+          .attr('r', Math.max(3, width / 150))
+          .attr('fill', d.color)
+          .attr('stroke', 'white')
+          .attr('stroke-width', Math.max(1, width / 300));
+        
+        // Add legend text
+        g.append('text')
+          .attr('x', legendRectSize + 8)
+          .attr('y', legendRectSize / 2)
+          .attr('dy', '0.35em')
+          .style('font-size', `${Math.max(10, width / 80)}px`)
+          .style('font-weight', '500')
+          .text(d.label);
+      });
+    
     // Add tooltip
     const tooltip = d3.select('body')
       .append('div')
@@ -470,6 +518,48 @@ function createBarChart() {
     svg.append('g')
       .call(yAxis);
     
+    // Add legend
+    const metricLabels = {
+      cases: 'Daily New Cases',
+      deaths: 'Daily New Deaths',
+      recovered: 'Daily New Recovered'
+    };
+    
+    const legendData = [
+      { label: metricLabels[currentMetric] || 'Daily New Cases', color: colors.cases }
+    ];
+    
+    const legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 150}, 20)`);
+    
+    const legendRectSize = Math.max(12, width / 100);
+    legend.selectAll('.legend-item')
+      .data(legendData)
+      .enter()
+      .append('g')
+      .attr('class', 'legend-item')
+      .each(function(d) {
+        const g = d3.select(this);
+        
+        // Add legend rectangle
+        g.append('rect')
+          .attr('width', legendRectSize)
+          .attr('height', legendRectSize)
+          .attr('fill', d.color)
+          .attr('rx', Math.max(2, width / 200))
+          .attr('ry', Math.max(2, width / 200));
+        
+        // Add legend text
+        g.append('text')
+          .attr('x', legendRectSize + 8)
+          .attr('y', legendRectSize / 2)
+          .attr('dy', '0.35em')
+          .style('font-size', `${Math.max(10, width / 80)}px`)
+          .style('font-weight', '500')
+          .text(d.label);
+      });
+    
     // Add tooltip
     const tooltip = d3.select('body')
       .append('div')
@@ -611,6 +701,51 @@ function createMultiChart() {
     
     svg.append('g')
       .call(yAxis);
+    
+    // Add legend
+    const metricLabels = {
+      cases: 'Total Cases',
+      deaths: 'Total Deaths',
+      recovered: 'Total Recovered'
+    };
+    
+    const legendData = metrics.map(metric => ({
+      label: metricLabels[metric] || metric.charAt(0).toUpperCase() + metric.slice(1),
+      color: colors[metric]
+    }));
+    
+    const legendSpacing = Math.max(15, width / 30);
+    const legend = svg.append('g')
+      .attr('class', 'legend')
+      .attr('transform', `translate(${width - 120}, 20)`);
+    
+    legend.selectAll('.legend-item')
+      .data(legendData)
+      .enter()
+      .append('g')
+      .attr('class', 'legend-item')
+      .attr('transform', (d, i) => `translate(0, ${i * legendSpacing})`)
+      .each(function(d) {
+        const g = d3.select(this);
+        
+        // Add legend line
+        g.append('line')
+          .attr('x1', 0)
+          .attr('y1', 6)
+          .attr('x2', 20)
+          .attr('y2', 6)
+          .attr('stroke', d.color)
+          .attr('stroke-width', Math.max(2, width / 200));
+        
+        // Add legend text
+        g.append('text')
+          .attr('x', 25)
+          .attr('y', 6)
+          .attr('dy', '0.35em')
+          .style('font-size', `${Math.max(10, width / 80)}px`)
+          .style('font-weight', '500')
+          .text(d.label);
+      });
     
     // Add tooltip
     const tooltip = d3.select('body')
