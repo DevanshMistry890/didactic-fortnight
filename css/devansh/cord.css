@@ -1,0 +1,65 @@
+.chord-ribbon,
+.chord-group {
+    transition: opacity 0.3s ease-in-out;
+    stroke-width: 1px;
+    stroke: #fff;
+    filter: url(#drop-shadow-chord);
+    /* Apply a subtle shadow */
+}
+
+.chord-ribbon:hover,
+.chord-group:hover {
+    opacity: 1 !important;
+    /* Force full opacity on hover */
+}
+
+.tooltip-chord {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1000;
+}
+
+.chord-label {
+    font-size: 12px;
+    fill: #4b5563;
+}
+
+#chord-chart-container svg {
+    width: 100%;
+    height: auto;
+    max-height: 800px;
+}
+
+/* Legend styling */
+.legend-item-chord {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.legend-color-box-chord {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    border: 1px solid #d1d5db;
+}
+
+.legend-text-chord {
+    font-size: 14px;
+    color: #374151;
+}
+
+.cord-chart-container {
+    margin-top: 5vh !important;
+    margin-bottom: 5vh !important;
+}
