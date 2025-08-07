@@ -40,6 +40,7 @@
   <link href="./css/devansh/shankey.css" rel="stylesheet">
   <link href="./css/devansh/stream.css" rel="stylesheet">
   <link href="./css/devansh/heatmap.css" rel="stylesheet">
+  <link href="./css/devansh/cord.css" rel="stylesheet">
   <script>
     console.log(localStorage.getItem('darkMode'));
     if (localStorage.getItem('darkMode') === "on") {
@@ -301,6 +302,38 @@
             </div>
           </div>
         </div>
+
+        <div class="chord-chart-container">
+          <div class="container p-4 lg:p-8 bg-white rounded-xl shadow-lg">
+            <div class="text-center mb-6">
+              <h1 class="text-3xl md:text-4xl font-bold text-gray-800">D3.js Chord Diagram: COVID-19 Confirmed Cases
+              </h1>
+              <p class="text-gray-600 mt-2">Visualizing the flow of cases between selected countries.[Educated Data]</p>
+              <p class="text-sm text-gray-500 mt-1">Hover over an arc or a ribbon to see the details.</p>
+            </div>
+
+            <div id="loader-chord" class="text-center">
+              <svg class="animate-spin h-8 w-8 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none"
+                viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                </path>
+              </svg>
+              <p class="mt-2 text-gray-600">Loading and processing data...</p>
+            </div>
+
+            <div id="chord-chart-container" class="w-full flex justify-center"></div>
+            <div id="tooltip-chord" class="tooltip-chord"></div>
+
+            <div id="legend-chord-container" class="mt-8 p-4 bg-gray-50 rounded-lg shadow-inner">
+              <h3 class="text-lg font-semibold text-gray-700 mb-4">Country Legend</h3>
+              <div id="legend-items-chord" class="flex flex-wrap gap-x-8 gap-y-4 justify-center">
+                <!-- Legend items will be populated here by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -397,6 +430,7 @@
   <script src="js/devansh/shankey.js"></script>
   <script src="js/devansh/stream.js"></script>
   <script src="js/devansh/heatmap.js"></script>
+  <script src="js/devansh/cord.js"></script>
   <!-- svg sprite-->
   <div style="display: none">
     <svg width="0" height="0">

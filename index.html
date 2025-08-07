@@ -15,10 +15,34 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <meta name="description" content="Dev D3 chart Dashboard" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Poppins:ital,wght@0,500;1,500&amp;display=swap"
     rel="stylesheet">
   <link rel="stylesheet" media="all" href="css/app.min.css">
+  
+  <style>
+    #table-overview {
+      margin-left: 5vw !important;
+    }
+
+    
+    .rowspan {
+      vertical-align: middle !important;
+      text-align: center !important;
+    }
+
+    .section-title {
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #6C5DD3;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+  </style>
   <script>
     var viewportmeta = document.querySelector('meta[name="viewport"]');
     if (viewportmeta) {
@@ -166,260 +190,129 @@
       <div class="page__center">
         <div class="page__row page__row_head page__row_border">
           <div class="page__col">
-            <div class="page__hello h5">Hi Tam Tran,</div>
-            <div class="page__welcome h2">Welcome back<span class="desktop-hide">👋</span></div>
-          </div>
-          <div class="page__col">
-            <div class="header">
-              <button class="header__burger"></button>
-              <div class="search">
-                <div class="search__field">
-                  <input class="search__input" type="text" placeholder="Search" />
-                  <button class="search__toggle">
-                    <svg class="icon icon-search">
-                      <use xlink:href="#icon-search"></use>
-                    </svg>
-                    <svg class="icon icon-close">
-                      <use xlink:href="#icon-close"></use>
-                    </svg>
-                  </button>
-                </div>
-                <div class="search__result">
-                  <div class="search__info caption-sm">Recent Searches</div>
-                  <div class="search__list"><a class="search__item" href="#">
-                      <div class="search__preview bg-pink"><img class="search__pic" src="img/figure-1.png" alt="" />
-                      </div>
-                      <div class="search__text">Earning byitems
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                    </a><a class="search__item" href="#">
-                      <div class="search__preview bg-yellow"><img class="search__pic" src="img/figure-4.png" alt="" />
-                      </div>
-                      <div class="search__text">This monthStatements
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                    </a><a class="search__item" href="#">
-                      <div class="search__preview bg-blue-light"><img class="search__pic" src="img/figure-3.png"
-                          alt="" /></div>
-                      <div class="search__text">How manysales I got…
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                    </a></div>
-                  <button class="search__btn btn btn_purple btn_wide">Advance Search</button>
-                </div>
-              </div>
-              <button class="header__search">
-                <svg class="icon icon-search">
-                  <use xlink:href="#icon-search"></use>
-                </svg>
-              </button>
-              <div class="notifications">
-                <button class="notifications__open">
-                  <svg class="icon icon-bell">
-                    <use xlink:href="#icon-bell"></use>
-                  </svg><span class="notifications__counter">2</span>
-                </button>
-                <div class="notifications__wrap">
-                  <div class="notifications__info h6">Recent Notification</div>
-                  <div class="notifications__list"><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-blue"><img class="notifications__pic" src="img/chat.svg"
-                            alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Sarah Saunders</div>
-                          <div class="notifications__time caption">8h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Commented on <span
-                            class="notifications__project">Collab Design</span></div>
-                      </div>
-                    </a><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-green"><img class="notifications__pic" src="img/bag.svg"
-                            alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Glenn Greer</div>
-                          <div class="notifications__time caption">12h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Just pushaded <span
-                            class="notifications__project">Sapiens Illustration</span></div>
-                      </div>
-                    </a><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-purple"><img class="notifications__pic"
-                            src="img/message.svg" alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Sarah Saunders</div>
-                          <div class="notifications__time caption">14h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Sent you a message 📪 </div>
-                      </div>
-                    </a><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-red"><img class="notifications__pic" src="img/heart.svg"
-                            alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Sarah Saunders</div>
-                          <div class="notifications__time caption">21h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Liked <span class="notifications__project">Folio
-                            Agency</span></div>
-                      </div>
-                    </a><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-blue"><img class="notifications__pic" src="img/chat.svg"
-                            alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Sarah Saunders</div>
-                          <div class="notifications__time caption">8h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Commented on <span
-                            class="notifications__project">Collab Design</span></div>
-                      </div>
-                    </a><a class="notifications__item" href="notifications.html">
-                      <div class="notifications__ava"><img class="notifications__pic" src="img/ava-1.png" alt="" />
-                        <div class="notifications__status bg-green"><img class="notifications__pic" src="img/bag.svg"
-                            alt="" /></div>
-                      </div>
-                      <div class="notifications__details">
-                        <div class="notifications__line">
-                          <div class="notifications__user caption">Glenn Greer</div>
-                          <div class="notifications__time caption">12h</div>
-                        </div>
-                        <div class="notifications__text caption-sm">Just pushaded <span
-                            class="notifications__project">Sapiens Illustration</span></div>
-                      </div>
-                    </a></div>
-                  <div class="notifications__btns"><a class="notifications__btn btn btn_black"
-                      href="notifications.html">See all incoming activity</a></div>
-                </div>
-              </div><a class="header__user" href="#"><img class="header__pic" src="img/ava.png" alt="" /></a>
-            </div>
+            <div class="page__hello h5">Hi There!</div>
+            <div class="page__welcome h2">Welcome Back<span class="desktop-hide">👋</span></div>
           </div>
         </div>
         <div class="page__row page__row_border">
-          <div class="page__col">
-            <div class="slider">
-              <div class="slider__container">
-                <div class="slider__inner owl-carousel js-slider">
-                  <div class="slider__item">
-                    <div class="slider__details">
-                      <div class="slider__title h5">Set a Google Analytics Code</div>
-                      <div class="slider__text">Did you know you can set a Google Analytics code for your products?
-                      </div><a class="slider__btn btn btn_white js-popup-open" href="#popup-settings"
-                        data-effect="mfp-zoom-in">Settings</a>
-                    </div>
-                    <div class="slider__preview"><img class="slider__pic" src="img/slider-pic.png" alt=""></div>
-                  </div>
-                  <div class="slider__item">
-                    <div class="slider__details">
-                      <div class="slider__title h5">Set a Google Analytics Code</div>
-                      <div class="slider__text">Did you know you can set a Google Analytics code for your products?
-                      </div><a class="slider__btn btn btn_white js-popup-open" href="#popup-settings"
-                        data-effect="mfp-zoom-in">Settings</a>
-                    </div>
-                    <div class="slider__preview"><img class="slider__pic" src="img/slider-pic.png" alt=""></div>
-                  </div>
-                  <div class="slider__item">
-                    <div class="slider__details">
-                      <div class="slider__title h5">Set a Google Analytics Code</div>
-                      <div class="slider__text">Did you know you can set a Google Analytics code for your products?
-                      </div><a class="slider__btn btn btn_white js-popup-open" href="#popup-settings"
-                        data-effect="mfp-zoom-in">Settings</a>
-                    </div>
-                    <div class="slider__preview"><img class="slider__pic" src="img/slider-pic.png" alt=""></div>
-                  </div>
-                </div>
-                <button class="slider__close">
-                  <svg class="icon icon-remove">
-                    <use xlink:href="#icon-remove"></use>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <div class="page__widgets">
-              <div class="widget widget_shadow">
-                <div class="widget__title">Earnings by item</div>
-                <div class="widget__list"><a class="widget__item" href="products.html">
-                    <div class="widget__preview bg-pink"><img class="widget__pic" src="img/figure-1.png" alt=""></div>
-                    <div class="widget__details">
-                      <div class="widget__category title">Bento 3D Kit
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                      <div class="widget__info caption">Illustration</div>
-                    </div>
-                  </a><a class="widget__item" href="products.html">
-                    <div class="widget__preview bg-yellow"><img class="widget__pic" src="img/figure-2.png" alt=""></div>
-                    <div class="widget__details">
-                      <div class="widget__category title">Bento 3D Kit
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                      <div class="widget__info caption">Illustration</div>
-                    </div>
-                  </a><a class="widget__item" href="products.html">
-                    <div class="widget__preview bg-blue-light"><img class="widget__pic" src="img/figure-3.png" alt="">
-                    </div>
-                    <div class="widget__details">
-                      <div class="widget__category title">Collab UI Kit
-                        <svg class="icon icon-arrow-right">
-                          <use xlink:href="#icon-arrow-right"></use>
-                        </svg>
-                      </div>
-                      <div class="widget__info caption">Coded Template</div>
-                    </div>
-                  </a></div>
-              </div>
-              <div class="widget widget_chart widget_pink">
-                <div class="widget__title">Earnings</div>
-                <div class="widget__wrap">
-                  <div class="widget__chart widget__chart_earning">
-                    <div id="chart-earning"></div>
-                  </div>
-                  <div class="widget__btns">
-                    <button class="widget__btn btn btn_purple btn_wide">Analytics</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="page__col">
-            <div class="page__group">
-              <div class="widget widget_stat widget_pb60">
-                <div class="widget__title">Your earning this month</div>
-                <div class="widget__counter title title_md color-purple">479.4</div>
-                <div class="widget__text">Update your payout method in Settings</div><a
-                  class="widget__btn btn btn_white btn_wide" href="payouts.html">Withdraw All Earnings</a>
-              </div>
-              <div class="widget widget_empty widget_p0">
-                <div class="widget__title">Affiliate Impressions</div>
-                <div class="widget__chart widget__chart_impressions">
-                  <div id="chart-affiliate-impressions"></div>
-                </div>
-              </div>
-            </div>
+          <div id="table-overview" class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chart Type</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Devansh Mistry -->
+                <tr>
+                  <td rowspan="5" class="rowspan">Devansh Mistry </td>
+                  <td>Spider Chart</td>
+                  <td>Hoverable legend & chart, with tooltip data</td>
+                </tr>
+                <tr>
+                  <td>Shankey Chart</td>
+                  <td>Hoverable legend & chart, with tooltip data</td>
+                </tr>
+                <tr>
+                  <td>Stream Graph</td>
+                  <td>Hoverable legend & chart, with tooltip data</td>
+                </tr>
+                <tr>
+                  <td>Heat Map</td>
+                  <td>Hoverable chart with tooltip data</td>
+                </tr>
+                <tr>
+                  <td>Cord Diagram</td>
+                  <td>Hoverable legend & chart, with tooltip data</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chart Type</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="4" class="rowspan">Siva</td>
+                  <td>Bubble Chart</td>
+                  <td>Mortality risk & death count. Color/size coded bubbles</td>
+                </tr>
+                <tr>
+                  <td>Bar Graph</td>
+                  <td>Daily COVID-19 cases. Animated bars with hover details</td>
+                </tr>
+                <tr>
+                  <td>Line Graph</td>
+                  <td>Tracks weekly trends. Zoom/pan interactive functionality</td>
+                </tr>
+                <tr>
+                  <td>Vaccination Tracker</td>
+                  <td>Daily shots vs. 100k targets. Dynamic column indicators</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chart Type</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="4" class="rowspan">Joao</td>
+                  <td>Line Chart</td>
+                  <td>Tracks total cases over time. Interactive tooltips on key dates</td>
+                </tr>
+                <tr>                  
+                  <td>Bar Chart</td>
+                  <td>New daily cases, deaths, recoveries. Auto-updating, hover-enabled</td>
+                </tr>
+                <tr>
+                  <td>Multi-Line Chart</td>
+                  <td>Compares cases, deaths, recoveries. Color-coded trend lines</td>
+                </tr>
+                <tr>
+                  <td>Pie Chart</td>
+                  <td>Breakdown: active, recovered, deaths. Interactive hover details</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-primary">
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Chart Type</th>
+                  <th scope="col">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan="2" class="rowspan">Parth</td>
+                  <td>bar Chart</td>
+                  <td></td>
+                </tr>
+                <tr>                  
+                  <td>Pie Chart</td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+
           </div>
         </div>
+
       </div>
     </div>
+  </div>
   </div>
   <div class="popup mfp-hide" id="popup-settings">
     <form class="popup__form">
@@ -508,10 +401,9 @@
   <script src="js/lib/jquery.min.js"></script>
   <script src="js/lib/owl.carousel.min.js"></script>
   <script src="js/lib/svg4everybody.min.js"></script>
-  <script src="js/lib/apexcharts.min.js"></script>
   <script src="js/lib/jquery.magnific-popup.min.js"></script>
   <script src="js/app.js"></script>
-  <script src="js/charts.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <!-- svg sprite-->
   <div style="display: none"><svg width="0" height="0">
       <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 22" id="icon-overview">
